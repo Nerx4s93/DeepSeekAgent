@@ -2,7 +2,7 @@
 
 namespace DeepSeekAgent;
 
-public abstract class DualCommand
+public abstract class LocalCommand
 {
     public abstract string Name { get; }
     public abstract string Description { get; }

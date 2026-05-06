@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands;
 
-public class WSLCommand : DualCommand
+public class WSLCommand : LocalCommand
 {
     public override string Name => "WSL";
 

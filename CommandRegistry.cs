@@ -8,22 +8,22 @@ namespace DeepSeekAgent;
 
 public class CommandRegistry
 {
-    private readonly Dictionary<string, DualCommand> _commands = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, LocalCommand> _commands = new(StringComparer.OrdinalIgnoreCase);
 
     public CommandRegistry()
     {
-        var commandType = typeof(DualCommand);
+        var commandType = typeof(LocalCommand);
         var types = Assembly.GetExecutingAssembly().GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && commandType.IsAssignableFrom(t));
 
         foreach (var type in types)
         {
-            var command = (DualCommand)Activator.CreateInstance(type)!;
+            var command = (LocalCommand)Activator.CreateInstance(type)!;
             _commands.Add(command.Name, command);
         }
     }
 
-    public DualCommand? GetCommand(string name) =>
+    public LocalCommand? GetCommand(string name) =>
         _commands.TryGetValue(name, out var cmd) ? cmd : null;
 
     public string GetToolsDescription() =>
