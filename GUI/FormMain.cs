@@ -43,7 +43,7 @@ public partial class FormMain : Form
 
             _chatSettings = new ChatSettings()
             {
-                ModelType = ModelType.Default,
+                ModelType = ModelType.Expert,
                 Search = false,
                 Thinking = false
             };
