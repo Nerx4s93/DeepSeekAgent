@@ -60,16 +60,17 @@ public partial class FormMain : Form
         }
     }
 
-    private void buttonWSL_Click(object sender, EventArgs e)
-    {
-        new FormWSL().Show();
-    }
+    #region Файл
 
     private async void buttonClearHistory_Click(object sender, EventArgs e)
     {
         Console.Clear();
         await CreateChatSession();
     }
+
+    #endregion
+
+    #region Настройки
 
     private async void buttonChangeApiKey_Click(object sender, EventArgs e)
     {
@@ -101,6 +102,17 @@ public partial class FormMain : Form
             MessageBox.Show(ex.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
+    #endregion
+
+    #region Инструменты
+
+    private void buttonWSL_Click(object sender, EventArgs e)
+    {
+        new FormWSL().Show();
+    }
+
+    #endregion
 
     private async void buttonStart_Click(object sender, EventArgs e)
     {
