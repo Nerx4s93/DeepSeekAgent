@@ -1,0 +1,6 @@
+PYTHON — выполнение Python-кода в среде Windows.
+
+Поддерживается только блочная структура команды:
+COMMAND PYTHON
+<code>
+END PYTHON
