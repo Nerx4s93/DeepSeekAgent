@@ -38,8 +38,8 @@ partial class FormMain
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonWSL = new System.Windows.Forms.ToolStripMenuItem();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
-        richTextBoxLogs = new DeepSeekAgent.UI.FastRichTextBox();
         richTextBoxPromt = new DeepSeekAgent.UI.FastRichTextBox();
+        richTextBoxLogs = new DeepSeekAgent.UI.LogsRichTextBox();
         menuStrip.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
@@ -130,18 +130,6 @@ partial class FormMain
         splitContainer1.SplitterDistance = 385;
         splitContainer1.TabIndex = 11;
         // 
-        // richTextBoxLogs
-        // 
-        richTextBoxLogs.BackColor = Color.FromArgb(12, 12, 12);
-        richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-        richTextBoxLogs.ForeColor = Color.Gainsboro;
-        richTextBoxLogs.Location = new Point(0, 0);
-        richTextBoxLogs.Name = "richTextBoxLogs";
-        richTextBoxLogs.ReadOnly = true;
-        richTextBoxLogs.Size = new Size(1221, 385);
-        richTextBoxLogs.TabIndex = 0;
-        richTextBoxLogs.Text = "";
-        // 
         // richTextBoxPromt
         // 
         richTextBoxPromt.BackColor = Color.FromArgb(12, 12, 12);
@@ -153,6 +141,17 @@ partial class FormMain
         richTextBoxPromt.TabIndex = 0;
         richTextBoxPromt.Text = "";
         richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
+        // 
+        // richTextBoxLogs
+        // 
+        richTextBoxLogs.BackColor = Color.FromArgb(12, 12, 12);
+        richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+        richTextBoxLogs.ForeColor = Color.Gainsboro;
+        richTextBoxLogs.Location = new Point(0, 0);
+        richTextBoxLogs.Name = "richTextBoxLogs";
+        richTextBoxLogs.Size = new Size(1221, 385);
+        richTextBoxLogs.TabIndex = 0;
+        richTextBoxLogs.Text = "";
         // 
         // FormMain
         // 
@@ -187,6 +186,6 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonWSL;
     private System.Windows.Forms.SplitContainer splitContainer1;
-    private UI.FastRichTextBox richTextBoxLogs;
     private UI.FastRichTextBox richTextBoxPromt;
+    private UI.LogsRichTextBox richTextBoxLogs;
 }
