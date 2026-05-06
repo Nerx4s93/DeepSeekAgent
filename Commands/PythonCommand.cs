@@ -48,7 +48,15 @@ public class PythonCommand : LocalCommand
                 var error = process.StandardError.ReadToEnd();
                 process.WaitForExit();
 
-                return !string.IsNullOrEmpty(error) ? $"Error:\n{error}" : output;
+                var executeResult = !string.IsNullOrEmpty(error) ? $"Error:\n{error}" : output;
+
+                var result = $"""
+                RESPONSE PYTHON
+                {executeResult}
+                END RESPONSE
+                """;
+
+                return result;
             }
             catch (Exception ex)
             {

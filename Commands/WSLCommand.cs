@@ -51,7 +51,13 @@ public class WSLCommand : LocalCommand
 
             await WslManager.SendCommandAsync(input);
 
-            var result = await tcs.Task;
+            var executeResult = await tcs.Task;
+
+            var result = $"""
+            RESPONSE WSL
+            {executeResult}
+            END RESPONSE
+            """;
 
             return result;
         }

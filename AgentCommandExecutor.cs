@@ -33,9 +33,7 @@ internal class AgentCommandExecutor
             try
             {
                 var result = await tool.ExecuteAsync(command.Payload);
-                stringBuilder.AppendLine($"RESPONSE {command.ToolName}");
                 stringBuilder.AppendLine(result);
-                stringBuilder.AppendLine($"END RESPONSE");
             }
             catch (Exception ex)
             {
