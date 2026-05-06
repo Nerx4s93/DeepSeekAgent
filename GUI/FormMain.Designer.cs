@@ -152,6 +152,7 @@ partial class FormMain
         richTextBoxPromt.Size = new Size(1221, 136);
         richTextBoxPromt.TabIndex = 0;
         richTextBoxPromt.Text = "";
+        richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
         // 
         // FormMain
         // 
