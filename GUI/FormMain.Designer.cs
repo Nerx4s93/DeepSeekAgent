@@ -38,7 +38,7 @@ partial class FormMain
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonWSL = new System.Windows.Forms.ToolStripMenuItem();
         richTextBoxPromt = new System.Windows.Forms.RichTextBox();
-        richTextBox2 = new System.Windows.Forms.RichTextBox();
+        richTextBoxLogs = new System.Windows.Forms.RichTextBox();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
         menuStrip.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -123,17 +123,17 @@ partial class FormMain
         richTextBoxPromt.Text = "";
         richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
         // 
-        // richTextBox2
+        // richTextBoxLogs
         // 
-        richTextBox2.BackColor = Color.Black;
-        richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-        richTextBox2.ForeColor = Color.Gainsboro;
-        richTextBox2.Location = new Point(0, 0);
-        richTextBox2.Name = "richTextBox2";
-        richTextBox2.ReadOnly = true;
-        richTextBox2.Size = new Size(1134, 385);
-        richTextBox2.TabIndex = 10;
-        richTextBox2.Text = "";
+        richTextBoxLogs.BackColor = Color.Black;
+        richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+        richTextBoxLogs.ForeColor = Color.Gainsboro;
+        richTextBoxLogs.Location = new Point(0, 0);
+        richTextBoxLogs.Name = "richTextBoxLogs";
+        richTextBoxLogs.ReadOnly = true;
+        richTextBoxLogs.Size = new Size(1134, 385);
+        richTextBoxLogs.TabIndex = 10;
+        richTextBoxLogs.Text = "";
         // 
         // splitContainer1
         // 
@@ -144,7 +144,7 @@ partial class FormMain
         // 
         // splitContainer1.Panel1
         // 
-        splitContainer1.Panel1.Controls.Add(richTextBox2);
+        splitContainer1.Panel1.Controls.Add(richTextBoxLogs);
         // 
         // splitContainer1.Panel2
         // 
@@ -186,6 +186,6 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonWSL;
     private System.Windows.Forms.RichTextBox richTextBoxPromt;
-    private System.Windows.Forms.RichTextBox richTextBox2;
+    private System.Windows.Forms.RichTextBox richTextBoxLogs;
     private System.Windows.Forms.SplitContainer splitContainer1;
 }

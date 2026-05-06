@@ -3,8 +3,10 @@ using DeepSeekAPI.Exceptions;
 using DeepSeekAPI.Models.Chat;
 using DeepSeekAPI.Streaming;
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -64,7 +66,7 @@ public partial class FormMain : Form
 
     private async void buttonClearHistory_Click(object sender, EventArgs e)
     {
-        Console.Clear();
+        richTextBoxLogs.Clear();
         await CreateChatSession();
     }
 
@@ -132,15 +134,13 @@ public partial class FormMain : Form
             {
                 if (_lastMessageId != null)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine();
+                    LogLine();
+                    LogLine();
                 }
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("[TASK]:");
-                Console.ResetColor();
-                Console.WriteLine(task.TrimEnd());
-                Console.WriteLine();
+                LogLine("[TASK]:", Color.Green);
+                LogLine(task.TrimEnd());
+                LogLine();
 
                 await StartHandle(promt);
             });
@@ -185,12 +185,10 @@ public partial class FormMain : Form
                 {
                     var resultsForAi = await _agentCommandExecutor.ExecuteCommandsAsync(commands);
 
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine("[COMMANDS]:");
-                    Console.ResetColor();
-                    Console.WriteLine(resultsForAi);
+                    LogLine("");
+                    LogLine("");
+                    LogLine("[COMMANDS]:", Color.Blue);
+                    LogLine(resultsForAi);
 
                     while (true)
                     {
@@ -201,26 +199,23 @@ public partial class FormMain : Form
                         }
                         catch (RateLimitError)
                         {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
-                            Console.WriteLine("Rate limit exeption.");
-                            Console.Write("Wait to send message again");
+                            LogLine("Rate limit exeption.", Color.Yellow);
+                            Log("Wait to send message again", Color.Yellow);
 
                             for (var i = 0; i < 3; i++)
                             {
                                 await Task.Delay(2500);
-                                Console.Write(".");
+                                Log(".", Color.Yellow);
                             }
 
-                            Console.ResetColor();
-
-                            Console.WriteLine();
-                            Console.WriteLine();
+                            LogLine();
+                            LogLine();
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("\n\n[Error]: ИИ выдал ответ без команд и не завершил задачу.");
+                    LogLine("\n\n[Error]: ИИ выдал ответ без команд и не завершил задачу.", Color.Red);
                     break;
                 }
             }
@@ -228,7 +223,7 @@ public partial class FormMain : Form
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            LogLine(ex.ToString(), Color.Red);
         }
     }
 
@@ -238,9 +233,7 @@ public partial class FormMain : Form
         ChatSettings chatSettings,
         long? parentMessage = null)
     {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("[DEEPSEEK]:");
-        Console.ResetColor();
+        LogLine("[DEEPSEEK]:", Color.Red);
 
         long? messageId = null;
         var text = string.Empty;
@@ -253,7 +246,7 @@ public partial class FormMain : Form
         {
             if (deepSeekEvent is MessageInitEvent messageInitEvent)
             {
-                Console.Write(messageInitEvent.Content);
+                Log(messageInitEvent.Content ?? "");
                 messageId = messageInitEvent.MessageId;
                 text += messageInitEvent.Content;
             }
@@ -264,16 +257,84 @@ public partial class FormMain : Form
                     continue;
                 }
 
-                Console.Write(patchEvent.Value);
+                Log(patchEvent.Value);
                 text += patchEvent.Value;
             }
             else if (deepSeekEvent is TextEvent textEvent)
             {
-                Console.Write(textEvent.Text);
+                Log(textEvent.Text);
                 text += textEvent.Text;
             }
         }
 
         return (messageId, text);
+    }
+
+    private void LogLine(string text = "", Color? color = null)
+    {
+        Log(text + "\n", color);
+    }
+
+    private void Log(string text, Color? color = null)
+    {
+        if (richTextBoxLogs.InvokeRequired)
+        {
+            richTextBoxLogs.Invoke(new Action(() => AppendRtf(text, color)));
+        }
+        else
+        {
+            AppendRtf(text, color);
+        }
+    }
+
+    private void AppendRtf(string text, Color? color)
+    {
+        richTextBoxLogs.SuspendLayout();
+
+        try
+        {
+            string rtfText = ConvertToRtf(text, color);
+
+            richTextBoxLogs.Select(richTextBoxLogs.TextLength, 0);
+            richTextBoxLogs.SelectedRtf = rtfText;
+            richTextBoxLogs.ScrollToCaret();
+        }
+        finally
+        {
+            richTextBoxLogs.ResumeLayout();
+        }
+    }
+
+    private string ConvertToRtf(string text, Color? color)
+    {
+        var sb = new System.Text.StringBuilder();
+
+        sb.Append(@"{\rtf1\ansi");
+
+        if (color.HasValue)
+        {
+            var c = color.Value;
+            sb.Append(@"{\colortbl ;");
+            sb.Append($@"\red{c.R}\green{c.G}\blue{c.B};");
+            sb.Append("}");
+            sb.Append($@"\cf1 {EscapeRtf(text)}");
+        }
+        else
+        {
+            sb.Append(EscapeRtf(text));
+        }
+
+        sb.Append("}");
+
+        return sb.ToString();
+    }
+
+    private string EscapeRtf(string text)
+    {
+        return text
+            .Replace(@"\", @"\\")
+            .Replace("{", @"\{")
+            .Replace("}", @"\}")
+            .Replace("\n", @"\par ");
     }
 }
