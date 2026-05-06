@@ -12,9 +12,8 @@ public class WSLCommand : LocalCommand
 
     public override async Task<string> ExecuteAsync(string input)
     {
-        var stringBuilder = new StringBuilder();
+        var sb = new StringBuilder();
         var tcs = new TaskCompletionSource<string>();
-        using var cts = new CancellationTokenSource();
 
         Timer? timer = null;
 
@@ -25,47 +24,35 @@ public class WSLCommand : LocalCommand
 
         void OnOutput(string data)
         {
-            stringBuilder.AppendLine(data);
-            ResetTimer();
-        }
-
-        void OnError(string data)
-        {
-            stringBuilder.AppendLine(data);
+            sb.Append(data);
             ResetTimer();
         }
 
         try
         {
-            WslManager.OnOutput += OnOutput;
-            WslManager.OnError += OnError;
+            WslManager.Output += OnOutput;
 
             timer = new Timer(_ =>
             {
-                tcs.TrySetResult(stringBuilder.ToString());
+                tcs.TrySetResult(sb.ToString());
             });
 
             ResetTimer();
 
-            await WslManager.SendCommandAsync(input);
+            await WslManager.WriteAsync(input);
 
             var executeResult = await tcs.Task;
 
-            var result = $"""
+            return $"""
             RESPONSE WSL
-            {executeResult}
+            {executeResult.Trim()}
             END RESPONSE
             """;
-
-            return result;
         }
         finally
         {
-            WslManager.OnOutput -= OnOutput;
-            WslManager.OnError -= OnError;
-
+            WslManager.Output -= OnOutput;
             timer?.Dispose();
-            cts.Cancel();
         }
     }
 }

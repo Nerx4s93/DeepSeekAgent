@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace DeepSeekAgent.GUI;
@@ -14,26 +8,39 @@ public partial class FormWSL : Form
     public FormWSL()
     {
         InitializeComponent();
-        WslManager.OnOutput += WslManager_OnOutput;
-        WslManager.OnError += WslManager_OnError;
+
+        WslManager.Output += Wsl_Output;
     }
 
-    private void WslManager_OnOutput(string obj)
+    private void Wsl_Output(string obj)
     {
-        richTextBoxLogsWSL.Text += obj + "\n\n";
-    }
-
-    private void WslManager_OnError(string obj)
-    {
-        richTextBoxLogsWSL.Text += obj + "\n\n";
+        if (richTextBoxLogsWSL.InvokeRequired)
+        {
+            richTextBoxLogsWSL.Invoke(new Action(() =>
+            {
+                richTextBoxLogsWSL.AppendText(obj);
+            }));
+        }
+        else
+        {
+            richTextBoxLogsWSL.AppendText(obj);
+        }
     }
 
     private async void textBoxCommandInput_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.KeyCode == Keys.Enter)
         {
-            await WslManager.SendCommandAsync(textBoxCommandInput.Text);
+            var cmd = textBoxCommandInput.Text;
             textBoxCommandInput.Clear();
+
+            await WslManager.WriteAsync(cmd);
         }
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        WslManager.Output -= Wsl_Output;
+        base.OnFormClosed(e);
     }
 }

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DeepSeekAgent.ConPTY;
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -7,83 +10,140 @@ namespace DeepSeekAgent;
 
 public static class WslManager
 {
+    private static IntPtr _ptyHandle;
     private static Process? _process;
 
-    public static event Action<string>? OnOutput;
-    public static event Action<string>? OnError;
+    private static FileStream? _inputWriter;
+    private static FileStream? _outputReader;
+
+    private static readonly object _lock = new();
+
+    public static event Action<string>? Output;
 
     public static bool IsRunning => _process != null && !_process.HasExited;
 
-    public static void Start(string distro = "", string shell = "bash")
+    public static void Start(int width = 120, int height = 30)
     {
-        if (IsRunning)
+        lock (_lock)
         {
-            throw new InvalidOperationException("WSL already running");
+            if (IsRunning)
+                return;
+
+            var (inRead, inWrite) = PipeHelper.CreatePipe();
+            var (outRead, outWrite) = PipeHelper.CreatePipe();
+
+            var size = new ConPtyNative.COORD
+            {
+                X = (short)width,
+                Y = (short)height
+            };
+
+            // 1. Create PTY
+            int hr = ConPtyNative.CreatePseudoConsole(
+                size,
+                inRead,
+                outWrite,
+                0,
+                out _ptyHandle);
+
+            if (hr != 0)
+                throw new Exception($"CreatePseudoConsole failed: {hr}");
+
+            // 2. Setup STARTUPINFOEX
+            var siEx = new ConPtyNative.STARTUPINFOEX();
+            siEx.StartupInfo.cb = (uint)Marshal.SizeOf(siEx);
+
+            IntPtr lpSize = IntPtr.Zero;
+
+            ConPtyNative.InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize);
+
+            siEx.lpAttributeList = Marshal.AllocHGlobal(lpSize);
+
+            if (!ConPtyNative.InitializeProcThreadAttributeList(siEx.lpAttributeList, 1, 0, ref lpSize))
+                throw new System.ComponentModel.Win32Exception();
+
+            if (!ConPtyNative.UpdateProcThreadAttribute(
+                    siEx.lpAttributeList,
+                    0,
+                    (IntPtr)ConPtyNative.PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE,
+                    _ptyHandle,
+                    (IntPtr)IntPtr.Size,
+                    IntPtr.Zero,
+                    IntPtr.Zero))
+                throw new System.ComponentModel.Win32Exception();
+
+            // 3. Create process attached to PTY
+            var pi = new ConPtyNative.PROCESS_INFORMATION();
+
+            bool success = ConPtyNative.CreateProcess(
+                null,
+                "wsl.exe",
+                IntPtr.Zero,
+                IntPtr.Zero,
+                false,
+                ConPtyNative.EXTENDED_STARTUPINFO_PRESENT,
+                IntPtr.Zero,
+                null,
+                ref siEx,
+                out pi);
+
+            if (!success)
+                throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+
+            _process = Process.GetProcessById(pi.dwProcessId);
+
+            _inputWriter = new FileStream(inWrite, FileAccess.Write);
+            _outputReader = new FileStream(outRead, FileAccess.Read);
+
+            Task.Run(ReadLoop);
         }
-
-        var psi = new ProcessStartInfo
-        {
-            FileName = "wsl.exe",
-            Arguments = string.IsNullOrWhiteSpace(distro)
-                ? shell
-                : $"-d {distro} {shell}",
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            StandardOutputEncoding = Encoding.UTF8,
-            StandardErrorEncoding = Encoding.UTF8
-        };
-
-        _process = new Process { StartInfo = psi };
-
-        _process.OutputDataReceived += (s, e) =>
-        {
-            if (e.Data != null)
-            {
-                OnOutput?.Invoke(e.Data);
-            }
-        };
-
-        _process.ErrorDataReceived += (s, e) =>
-        {
-            if (e.Data != null)
-            {
-                OnError?.Invoke(e.Data);
-            }
-        };
-
-        _process.Start();
-
-        _process.BeginOutputReadLine();
-        _process.BeginErrorReadLine();
     }
 
-    public static async Task SendCommandAsync(string command)
+    private static async Task ReadLoop()
     {
-        if (!IsRunning)
+        var buffer = new byte[8192];
+
+        while (_outputReader != null)
         {
+            int read = await _outputReader.ReadAsync(buffer);
+
+            if (read > 0)
+            {
+                var text = Encoding.UTF8.GetString(buffer, 0, read);
+                Output?.Invoke(text);
+            }
+        }
+    }
+
+    public static async Task WriteAsync(string input)
+    {
+        if (!IsRunning || _inputWriter == null)
             throw new InvalidOperationException("WSL is not running");
-        }
 
-        command = command.Replace("\r", "").Replace("\n", "");
+        var data = Encoding.UTF8.GetBytes(input + "\n");
 
-        await _process!.StandardInput.WriteAsync(command + "\n");
-        await _process.StandardInput.FlushAsync();
+        await _inputWriter.WriteAsync(data);
+        await _inputWriter.FlushAsync();
     }
 
-    public static async Task StopAsync()
+    public static void Stop()
     {
-        if (!IsRunning)
+        lock (_lock)
         {
-            return;
+            if (!IsRunning)
+                return;
+
+            ConPtyNative.ClosePseudoConsole(_ptyHandle);
+
+            _process?.Kill(entireProcessTree: true);
+            _process?.Dispose();
+            _process = null;
+
+            _inputWriter?.Dispose();
+            _outputReader?.Dispose();
+
+            _inputWriter = null;
+            _outputReader = null;
         }
-
-        await SendCommandAsync("exit");
-        await _process!.WaitForExitAsync();
-
-        _process.Dispose();
-        _process = null;
     }
 }
