@@ -12,13 +12,13 @@ public class PythonCommand : LocalCommand
 {
     public override string Name => "PYTHON";
 
-    public override async Task<string> ExecuteAsync(string input)
+    public override async Task<string> ExecuteAsync(string payload)
     {
         return await Task.Run(() =>
         {
             try
             {
-                var code = ExtractPythonCode(input);
+                var code = ExtractPythonCode(payload);
 
                 var startInfo = new ProcessStartInfo
                 {

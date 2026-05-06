@@ -10,7 +10,7 @@ public class WSLCommand : LocalCommand
 
     private const int TimeoutMs = 1500;
 
-    public override async Task<string> ExecuteAsync(string input)
+    public override async Task<string> ExecuteAsync(string payload)
     {
         var sb = new StringBuilder();
         var tcs = new TaskCompletionSource<string>();
@@ -39,7 +39,7 @@ public class WSLCommand : LocalCommand
 
             ResetTimer();
 
-            await WslManager.WriteAsync(input);
+            await WslManager.WriteAsync(payload);
 
             var executeResult = await tcs.Task;
 
