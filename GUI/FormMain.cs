@@ -117,7 +117,11 @@ public partial class FormMain : Form
 
             await Task.Run(async () =>
             {
-                Console.WriteLine();
+                if (_lastMessageId == null)
+                {
+                    Console.WriteLine();
+                }
+
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("[TASK]:");
                 Console.ResetColor();
