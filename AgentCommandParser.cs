@@ -10,7 +10,7 @@ internal class AgentCommandParser
         RegexOptions.Compiled | RegexOptions.Singleline);
 
     private static readonly Regex InlineRegex = new(
-        @"COMMAND\s+(?<tool>\w+)\s+(?<payload>[^\r\n]+)",
+        @"COMMAND\s+(?<tool>\w+)(?:\s+(?<payload>[^\r\n]+))?",
         RegexOptions.Compiled);
 
     public List<AgentCommand> Parse(string text)
