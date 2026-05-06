@@ -51,9 +51,13 @@ public partial class FormMain : Form
 
             buttonStart.Enabled = true;
         }
-        catch (Exception ex)
+        catch (AuthenticationError)
         {
-            MessageBox.Show(ex.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(
+                "Вставьте свой токен перед началом работы.",
+                "Начало работы",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
         }
     }
 
