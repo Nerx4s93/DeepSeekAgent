@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace DeepSeekAgent.UI;
 
@@ -28,9 +30,16 @@ public class LogsRichTextBox : FastRichTextBox
 
         try
         {
+            var isAtBottom = IsScrolledToBottom();
+
             SelectionStart = TextLength;
             SelectionColor = color ?? ForeColor;
             AppendText(text);
+
+            if (isAtBottom)
+            {
+                ScrollToBottom();
+            }    
         }
         finally
         {
@@ -38,36 +47,21 @@ public class LogsRichTextBox : FastRichTextBox
         }
     }
 
-    private string ConvertToRtf(string text, Color? color)
+    private bool IsScrolledToBottom()
     {
-        var stringBuilder = new System.Text.StringBuilder();
-
-        stringBuilder.Append(@"{\rtf1\ansi");
-
-        if (color.HasValue)
-        {
-            var colorValue = color.Value;
-            stringBuilder.Append(@"{\colortbl ;");
-            stringBuilder.Append($@"\red{colorValue.R}\green{colorValue.G}\blue{colorValue.B};");
-            stringBuilder.Append("}");
-            stringBuilder.Append($@"\cf1 {EscapeRtf(text)}");
-        }
-        else
-        {
-            stringBuilder.Append(EscapeRtf(text));
-        }
-
-        stringBuilder.Append("}");
-
-        return stringBuilder.ToString();
+        var lastVisible = GetCharIndexFromPosition(new Point(0, Height));
+        return lastVisible >= TextLength - 1;
     }
 
-    private string EscapeRtf(string text)
+    private void ScrollToBottom()
     {
-        return text
-            .Replace(@"\", @"\\")
-            .Replace("{", @"\{")
-            .Replace("}", @"\}")
-            .Replace("\n", @"\par ");
+        SendMessage(Handle, WM_VSCROLL, SB_BOTTOM, 0);
     }
+
+    private const int EM_GETFIRSTVISIBLELINE = 0x00CE;
+    private const int WM_VSCROLL = 0x0115;
+    private const int SB_BOTTOM = 7;
+
+    [DllImport("user32.dll")]
+    private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 }
