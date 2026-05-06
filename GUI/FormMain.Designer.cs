@@ -37,9 +37,9 @@ partial class FormMain
         buttonChangeApiKey = new System.Windows.Forms.ToolStripMenuItem();
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonWSL = new System.Windows.Forms.ToolStripMenuItem();
-        richTextBoxPromt = new System.Windows.Forms.RichTextBox();
-        richTextBoxLogs = new System.Windows.Forms.RichTextBox();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
+        richTextBoxLogs = new DeepSeekAgent.UI.FastRichTextBox();
+        richTextBoxPromt = new DeepSeekAgent.UI.FastRichTextBox();
         menuStrip.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
@@ -111,17 +111,24 @@ partial class FormMain
         buttonWSL.Text = "WSL";
         buttonWSL.Click += buttonWSL_Click;
         // 
-        // richTextBoxPromt
+        // splitContainer1
         // 
-        richTextBoxPromt.BackColor = Color.FromArgb(12, 12, 12);
-        richTextBoxPromt.Dock = System.Windows.Forms.DockStyle.Fill;
-        richTextBoxPromt.ForeColor = Color.Gainsboro;
-        richTextBoxPromt.Location = new Point(0, 0);
-        richTextBoxPromt.Name = "richTextBoxPromt";
-        richTextBoxPromt.Size = new Size(1221, 136);
-        richTextBoxPromt.TabIndex = 9;
-        richTextBoxPromt.Text = "";
-        richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
+        splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+        splitContainer1.Location = new Point(0, 40);
+        splitContainer1.Name = "splitContainer1";
+        splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+        // 
+        // splitContainer1.Panel1
+        // 
+        splitContainer1.Panel1.BackColor = Color.FromArgb(12, 12, 12);
+        splitContainer1.Panel1.Controls.Add(richTextBoxLogs);
+        // 
+        // splitContainer1.Panel2
+        // 
+        splitContainer1.Panel2.Controls.Add(richTextBoxPromt);
+        splitContainer1.Size = new Size(1221, 525);
+        splitContainer1.SplitterDistance = 385;
+        splitContainer1.TabIndex = 11;
         // 
         // richTextBoxLogs
         // 
@@ -132,26 +139,19 @@ partial class FormMain
         richTextBoxLogs.Name = "richTextBoxLogs";
         richTextBoxLogs.ReadOnly = true;
         richTextBoxLogs.Size = new Size(1221, 385);
-        richTextBoxLogs.TabIndex = 10;
+        richTextBoxLogs.TabIndex = 0;
         richTextBoxLogs.Text = "";
         // 
-        // splitContainer1
+        // richTextBoxPromt
         // 
-        splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-        splitContainer1.Location = new Point(0, 40);
-        splitContainer1.Name = "splitContainer1";
-        splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-        // 
-        // splitContainer1.Panel1
-        // 
-        splitContainer1.Panel1.Controls.Add(richTextBoxLogs);
-        // 
-        // splitContainer1.Panel2
-        // 
-        splitContainer1.Panel2.Controls.Add(richTextBoxPromt);
-        splitContainer1.Size = new Size(1221, 525);
-        splitContainer1.SplitterDistance = 385;
-        splitContainer1.TabIndex = 11;
+        richTextBoxPromt.BackColor = Color.FromArgb(12, 12, 12);
+        richTextBoxPromt.Dock = System.Windows.Forms.DockStyle.Fill;
+        richTextBoxPromt.ForeColor = Color.Gainsboro;
+        richTextBoxPromt.Location = new Point(0, 0);
+        richTextBoxPromt.Name = "richTextBoxPromt";
+        richTextBoxPromt.Size = new Size(1221, 136);
+        richTextBoxPromt.TabIndex = 0;
+        richTextBoxPromt.Text = "";
         // 
         // FormMain
         // 
@@ -162,7 +162,7 @@ partial class FormMain
         Controls.Add(splitContainer1);
         Controls.Add(menuStrip);
         Font = new Font("Cascadia Mono", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-        ForeColor = Color.Gray;
+        ForeColor = Color.Gainsboro;
         MainMenuStrip = menuStrip;
         Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
         Name = "FormMain";
@@ -185,7 +185,7 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem buttonChangeApiKey;
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonWSL;
-    private System.Windows.Forms.RichTextBox richTextBoxPromt;
-    private System.Windows.Forms.RichTextBox richTextBoxLogs;
     private System.Windows.Forms.SplitContainer splitContainer1;
+    private UI.FastRichTextBox richTextBoxLogs;
+    private UI.FastRichTextBox richTextBoxPromt;
 }
