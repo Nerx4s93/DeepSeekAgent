@@ -48,7 +48,7 @@ public partial class FormMain : Form
                 Thinking = false
             };
 
-            buttonStart.Enabled = true;
+            richTextBoxPromt.ReadOnly = false;
         }
         catch (AuthenticationError)
         {
@@ -114,21 +114,19 @@ public partial class FormMain : Form
 
     #endregion
 
-    private async void buttonStart_Click(object sender, EventArgs e)
+    private async void richTextBoxPromt_KeyDown(object sender, KeyEventArgs e)
     {
-        var startForm = new FormStartPromt();
-        var dialogResult = startForm.ShowDialog();
-
-        if (dialogResult == DialogResult.OK)
+        if (e.KeyCode == Keys.Enter && e.Shift == false)
         {
-            var task = startForm.Result;
+            var task = richTextBoxPromt.Text;
+            richTextBoxPromt.Clear();
             var basePromt = ResourcesDataLoader.GetDataText("BasePromt.txt");
 
             var promt =
                 (_lastMessageId == null ? basePromt + "\n\n" : "") +
                 "Задача пользователя:\n" + task;
 
-            buttonStart.Enabled = false;
+            richTextBoxPromt.ReadOnly = true;
 
             await Task.Run(async () =>
             {
@@ -147,7 +145,7 @@ public partial class FormMain : Form
                 await StartHandle(promt);
             });
 
-            buttonStart.Enabled = true;
+            richTextBoxPromt.ReadOnly = false;
         }
     }
 
@@ -157,7 +155,7 @@ public partial class FormMain : Form
         {
             _chatSession = await _deepSeekClient.CreateChatSession();
             _lastMessageId = null;
-            buttonStart.Enabled = true;
+            richTextBoxPromt.ReadOnly = false;
 
             return true;
         }

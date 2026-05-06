@@ -30,7 +30,6 @@ partial class FormMain
     /// </summary>
     private void InitializeComponent()
     {
-        buttonStart = new System.Windows.Forms.Button();
         menuStrip = new System.Windows.Forms.MenuStrip();
         файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonClearHistory = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,19 +37,15 @@ partial class FormMain
         buttonChangeApiKey = new System.Windows.Forms.ToolStripMenuItem();
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonWSL = new System.Windows.Forms.ToolStripMenuItem();
+        richTextBoxPromt = new System.Windows.Forms.RichTextBox();
+        richTextBox2 = new System.Windows.Forms.RichTextBox();
+        splitContainer1 = new System.Windows.Forms.SplitContainer();
         menuStrip.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+        splitContainer1.Panel1.SuspendLayout();
+        splitContainer1.Panel2.SuspendLayout();
+        splitContainer1.SuspendLayout();
         SuspendLayout();
-        // 
-        // buttonStart
-        // 
-        buttonStart.Enabled = false;
-        buttonStart.Location = new Point(453, 209);
-        buttonStart.Name = "buttonStart";
-        buttonStart.Size = new Size(260, 42);
-        buttonStart.TabIndex = 4;
-        buttonStart.Text = "Запуск";
-        buttonStart.UseVisualStyleBackColor = true;
-        buttonStart.Click += buttonStart_Click;
         // 
         // menuStrip
         // 
@@ -68,7 +63,7 @@ partial class FormMain
         // файлToolStripMenuItem
         // 
         файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonClearHistory });
-        файлToolStripMenuItem.ForeColor = Color.Silver;
+        файлToolStripMenuItem.ForeColor = Color.Gainsboro;
         файлToolStripMenuItem.Name = "файлToolStripMenuItem";
         файлToolStripMenuItem.Size = new Size(86, 36);
         файлToolStripMenuItem.Text = "Файл";
@@ -76,7 +71,7 @@ partial class FormMain
         // buttonClearHistory
         // 
         buttonClearHistory.BackColor = Color.FromArgb(30, 30, 30);
-        buttonClearHistory.ForeColor = Color.Silver;
+        buttonClearHistory.ForeColor = Color.Gainsboro;
         buttonClearHistory.Name = "buttonClearHistory";
         buttonClearHistory.Size = new Size(325, 40);
         buttonClearHistory.Text = "Очистить историю";
@@ -85,7 +80,7 @@ partial class FormMain
         // настройкиToolStripMenuItem
         // 
         настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonChangeApiKey });
-        настройкиToolStripMenuItem.ForeColor = Color.Silver;
+        настройкиToolStripMenuItem.ForeColor = Color.Gainsboro;
         настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
         настройкиToolStripMenuItem.Size = new Size(148, 36);
         настройкиToolStripMenuItem.Text = "Настройки";
@@ -93,7 +88,7 @@ partial class FormMain
         // buttonChangeApiKey
         // 
         buttonChangeApiKey.BackColor = Color.FromArgb(30, 30, 30);
-        buttonChangeApiKey.ForeColor = Color.Silver;
+        buttonChangeApiKey.ForeColor = Color.Gainsboro;
         buttonChangeApiKey.Name = "buttonChangeApiKey";
         buttonChangeApiKey.Size = new Size(332, 40);
         buttonChangeApiKey.Text = "Изменить api ключ";
@@ -102,7 +97,7 @@ partial class FormMain
         // инструментыToolStripMenuItem
         // 
         инструментыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonWSL });
-        инструментыToolStripMenuItem.ForeColor = Color.Silver;
+        инструментыToolStripMenuItem.ForeColor = Color.Gainsboro;
         инструментыToolStripMenuItem.Name = "инструментыToolStripMenuItem";
         инструментыToolStripMenuItem.Size = new Size(180, 36);
         инструментыToolStripMenuItem.Text = "Инструменты";
@@ -110,11 +105,53 @@ partial class FormMain
         // buttonWSL
         // 
         buttonWSL.BackColor = Color.FromArgb(30, 30, 30);
-        buttonWSL.ForeColor = Color.Silver;
+        buttonWSL.ForeColor = Color.Gainsboro;
         buttonWSL.Name = "buttonWSL";
-        buttonWSL.Size = new Size(270, 40);
+        buttonWSL.Size = new Size(164, 40);
         buttonWSL.Text = "WSL";
         buttonWSL.Click += buttonWSL_Click;
+        // 
+        // richTextBoxPromt
+        // 
+        richTextBoxPromt.BackColor = Color.Black;
+        richTextBoxPromt.Dock = System.Windows.Forms.DockStyle.Fill;
+        richTextBoxPromt.ForeColor = Color.Gainsboro;
+        richTextBoxPromt.Location = new Point(0, 0);
+        richTextBoxPromt.Name = "richTextBoxPromt";
+        richTextBoxPromt.Size = new Size(1134, 136);
+        richTextBoxPromt.TabIndex = 9;
+        richTextBoxPromt.Text = "";
+        richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
+        // 
+        // richTextBox2
+        // 
+        richTextBox2.BackColor = Color.Black;
+        richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+        richTextBox2.ForeColor = Color.Gainsboro;
+        richTextBox2.Location = new Point(0, 0);
+        richTextBox2.Name = "richTextBox2";
+        richTextBox2.ReadOnly = true;
+        richTextBox2.Size = new Size(1134, 385);
+        richTextBox2.TabIndex = 10;
+        richTextBox2.Text = "";
+        // 
+        // splitContainer1
+        // 
+        splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+        splitContainer1.Location = new Point(0, 40);
+        splitContainer1.Name = "splitContainer1";
+        splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+        // 
+        // splitContainer1.Panel1
+        // 
+        splitContainer1.Panel1.Controls.Add(richTextBox2);
+        // 
+        // splitContainer1.Panel2
+        // 
+        splitContainer1.Panel2.Controls.Add(richTextBoxPromt);
+        splitContainer1.Size = new Size(1134, 525);
+        splitContainer1.SplitterDistance = 385;
+        splitContainer1.TabIndex = 11;
         // 
         // FormMain
         // 
@@ -122,23 +159,25 @@ partial class FormMain
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         BackColor = Color.Black;
         ClientSize = new Size(1134, 565);
-        Controls.Add(buttonStart);
+        Controls.Add(splitContainer1);
         Controls.Add(menuStrip);
         Font = new Font("Segoe UI", 12F);
         ForeColor = Color.Gray;
-        FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         MainMenuStrip = menuStrip;
         Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
         Name = "FormMain";
         Text = "FormMain";
         menuStrip.ResumeLayout(false);
         menuStrip.PerformLayout();
+        splitContainer1.Panel1.ResumeLayout(false);
+        splitContainer1.Panel2.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+        splitContainer1.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
     }
 
     #endregion
-    private System.Windows.Forms.Button buttonStart;
     private System.Windows.Forms.MenuStrip menuStrip;
     private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonClearHistory;
@@ -146,4 +185,7 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem buttonChangeApiKey;
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonWSL;
+    private System.Windows.Forms.RichTextBox richTextBoxPromt;
+    private System.Windows.Forms.RichTextBox richTextBox2;
+    private System.Windows.Forms.SplitContainer splitContainer1;
 }
