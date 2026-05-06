@@ -1,5 +1,6 @@
 ﻿using DeepSeekAgent.ConPTY;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -27,7 +28,9 @@ public static class WslManager
         lock (_lock)
         {
             if (IsRunning)
+            {
                 return;
+            }
 
             var (inRead, inWrite) = PipeHelper.CreatePipe();
             var (outRead, outWrite) = PipeHelper.CreatePipe();
@@ -47,20 +50,24 @@ public static class WslManager
                 out _ptyHandle);
 
             if (hr != 0)
+            {
                 throw new Exception($"CreatePseudoConsole failed: {hr}");
+            }
 
             // 2. Setup STARTUPINFOEX
             var siEx = new STARTUPINFOEX();
             siEx.StartupInfo.cb = (uint)Marshal.SizeOf(siEx);
 
-            IntPtr lpSize = IntPtr.Zero;
+            var lpSize = IntPtr.Zero;
 
             ConPtyNative.InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize);
 
             siEx.lpAttributeList = Marshal.AllocHGlobal(lpSize);
 
             if (!ConPtyNative.InitializeProcThreadAttributeList(siEx.lpAttributeList, 1, 0, ref lpSize))
-                throw new System.ComponentModel.Win32Exception();
+            {
+                throw new Win32Exception();
+            }
 
             if (!ConPtyNative.UpdateProcThreadAttribute(
                     siEx.lpAttributeList,
@@ -70,7 +77,9 @@ public static class WslManager
                     (IntPtr)IntPtr.Size,
                     IntPtr.Zero,
                     IntPtr.Zero))
-                throw new System.ComponentModel.Win32Exception();
+            {
+                throw new Win32Exception();
+            }
 
             // 3. Create process attached to PTY
             var pi = new PROCESS_INFORMATION();
@@ -88,7 +97,9 @@ public static class WslManager
                 out pi);
 
             if (!success)
+            {
                 throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+            }
 
             _process = Process.GetProcessById(pi.dwProcessId);
 
@@ -105,7 +116,7 @@ public static class WslManager
 
         while (_outputReader != null)
         {
-            int read = await _outputReader.ReadAsync(buffer);
+            var read = await _outputReader.ReadAsync(buffer);
 
             if (read > 0)
             {
@@ -118,7 +129,9 @@ public static class WslManager
     public static async Task WriteAsync(string input)
     {
         if (!IsRunning || _inputWriter == null)
+        {
             throw new InvalidOperationException("WSL is not running");
+        }
 
         var data = Encoding.UTF8.GetBytes(input + "\n");
 
@@ -131,7 +144,9 @@ public static class WslManager
         lock (_lock)
         {
             if (!IsRunning)
+            {
                 return;
+            }
 
             ConPtyNative.ClosePseudoConsole(_ptyHandle);
 
