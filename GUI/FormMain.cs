@@ -91,7 +91,6 @@ public partial class FormMain : Form
             await CreateChatSession();
 
             File.WriteAllText("apikey.txt", apiKey);
-            listViewTasks.Clear();
         }
         catch (Exception ex)
         {
