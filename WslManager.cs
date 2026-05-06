@@ -120,8 +120,11 @@ public static class WslManager
 
             if (read > 0)
             {
-                var text = Encoding.UTF8.GetString(buffer, 0, read);
-                Output?.Invoke(text);
+                var raw = Encoding.UTF8.GetString(buffer, 0, read);
+
+                var clean = AnsiCleaner.Strip(raw);
+
+                Output?.Invoke(clean);
             }
         }
     }
