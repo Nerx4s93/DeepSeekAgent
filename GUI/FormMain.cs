@@ -123,7 +123,7 @@ public partial class FormMain : Form
                     Console.WriteLine();
                 }
 
-                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("[TASK]:");
                 Console.ResetColor();
                 Console.WriteLine(task.TrimEnd());
