@@ -22,7 +22,6 @@ public partial class FormMain : Form
 
     private ChatSettings _chatSettings = null!;
 
-    private bool _sendBasePromt = true;
     private ChatSession _chatSession = null!;
     private long? _lastMessageId = null;
 
@@ -114,10 +113,9 @@ public partial class FormMain : Form
             var basePromt = ResourcesDataLoader.GetDataText("BasePromt.txt");
 
             var promt =
-                (_sendBasePromt ? basePromt + "\n\n" : "") +
+                (_lastMessageId == null ? basePromt + "\n\n" : "") +
                 "Задача пользователя:\n" + task;
 
-            _sendBasePromt = false;
             buttonStart.Enabled = false;
 
             await Task.Run(async () =>
