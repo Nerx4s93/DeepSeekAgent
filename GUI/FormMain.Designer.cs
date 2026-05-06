@@ -30,37 +30,16 @@ partial class FormMain
     /// </summary>
     private void InitializeComponent()
     {
-        listViewTasks = new System.Windows.Forms.ListView();
-        label1 = new System.Windows.Forms.Label();
         buttonStart = new System.Windows.Forms.Button();
         buttonChangeApiKey = new System.Windows.Forms.Button();
         buttonClearHistory = new System.Windows.Forms.Button();
         buttonWSL = new System.Windows.Forms.Button();
         SuspendLayout();
         // 
-        // listViewTasks
-        // 
-        listViewTasks.Location = new Point(13, 52);
-        listViewTasks.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-        listViewTasks.Name = "listViewTasks";
-        listViewTasks.Size = new Size(994, 529);
-        listViewTasks.TabIndex = 0;
-        listViewTasks.UseCompatibleStateImageBehavior = false;
-        listViewTasks.View = System.Windows.Forms.View.List;
-        // 
-        // label1
-        // 
-        label1.AutoSize = true;
-        label1.Location = new Point(12, 9);
-        label1.Name = "label1";
-        label1.Size = new Size(113, 38);
-        label1.TabIndex = 1;
-        label1.Text = "Задачи:";
-        // 
         // buttonStart
         // 
         buttonStart.Enabled = false;
-        buttonStart.Location = new Point(12, 589);
+        buttonStart.Location = new Point(9, 12);
         buttonStart.Name = "buttonStart";
         buttonStart.Size = new Size(384, 50);
         buttonStart.TabIndex = 4;
@@ -70,7 +49,7 @@ partial class FormMain
         // 
         // buttonChangeApiKey
         // 
-        buttonChangeApiKey.Location = new Point(708, 589);
+        buttonChangeApiKey.Location = new Point(705, 12);
         buttonChangeApiKey.Name = "buttonChangeApiKey";
         buttonChangeApiKey.Size = new Size(300, 50);
         buttonChangeApiKey.TabIndex = 5;
@@ -80,7 +59,7 @@ partial class FormMain
         // 
         // buttonClearHistory
         // 
-        buttonClearHistory.Location = new Point(708, 645);
+        buttonClearHistory.Location = new Point(705, 68);
         buttonClearHistory.Name = "buttonClearHistory";
         buttonClearHistory.Size = new Size(300, 50);
         buttonClearHistory.TabIndex = 6;
@@ -90,7 +69,7 @@ partial class FormMain
         // 
         // buttonWSL
         // 
-        buttonWSL.Location = new Point(402, 589);
+        buttonWSL.Location = new Point(399, 12);
         buttonWSL.Name = "buttonWSL";
         buttonWSL.Size = new Size(300, 50);
         buttonWSL.TabIndex = 7;
@@ -103,26 +82,20 @@ partial class FormMain
         AutoScaleDimensions = new SizeF(15F, 38F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         BackColor = Color.White;
-        ClientSize = new Size(1020, 704);
+        ClientSize = new Size(1020, 129);
         Controls.Add(buttonWSL);
         Controls.Add(buttonClearHistory);
         Controls.Add(buttonChangeApiKey);
         Controls.Add(buttonStart);
-        Controls.Add(label1);
-        Controls.Add(listViewTasks);
         Font = new Font("Segoe UI", 14F);
         FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
         Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
         Name = "FormMain";
         Text = "FormMain";
         ResumeLayout(false);
-        PerformLayout();
     }
 
     #endregion
-
-    private System.Windows.Forms.ListView listViewTasks;
-    private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Button buttonStart;
     private System.Windows.Forms.Button buttonChangeApiKey;
     private System.Windows.Forms.Button buttonClearHistory;
