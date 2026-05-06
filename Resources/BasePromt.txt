@@ -25,16 +25,26 @@ TOOLS
 - автоматизации
 Формат:
 COMMAND PYTHON
-# code here
+# code
 END PYTHON
-2. WSL
+2. WAIT
+Используй для:
+- ожидания исполнений в WSL
+Формат:
+COMMAND WAIT
+# time in ms
+END PYTHON
+3. WSL
 Команды исполняются в WSL.
+ВАЖНО:
+WSL не гарантирует завершение команды по выводу.
+Вывод может приходить частями и с задержками.
 Используй для:
 - работы с файлами
 - обработки данных
 Формат:
 COMMAND WSL
-# command here
+# command
 END PYTHON
 
 OUTPUT PROTOCOL (STRICT STATE MACHINE)
