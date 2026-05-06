@@ -13,4 +13,8 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</EmbeddedResource>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DeepSeekAPI\DeepSeekAPI\DeepSeekAPI.csproj" />
+	</ItemGroup>
 </Project>
