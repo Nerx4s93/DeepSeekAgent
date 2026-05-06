@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands;
 
-public class WSLCommand : LocalCommand
+public class PowerShellCommand : LocalCommand
 {
-    public override string Name => "WSL";
+    public override string Name => "POWERSHELL";
 
     private const int TimeoutMs = 1500;
 
@@ -30,7 +30,7 @@ public class WSLCommand : LocalCommand
 
         try
         {
-            WslManager.Output += OnOutput;
+            PowerShellManager.Output += OnOutput;
 
             timer = new Timer(_ =>
             {
@@ -39,19 +39,19 @@ public class WSLCommand : LocalCommand
 
             ResetTimer();
 
-            await WslManager.WriteAsync(payload);
+            await PowerShellManager.WriteAsync(payload + "\r");
 
             var executeResult = await tcs.Task;
 
             return $"""
-            RESPONSE WSL
+            RESPONSE POWERSHELL
             {executeResult.Trim()}
             END RESPONSE
             """;
         }
         finally
         {
-            WslManager.Output -= OnOutput;
+            PowerShellManager.Output -= OnOutput;
             timer?.Dispose();
         }
     }

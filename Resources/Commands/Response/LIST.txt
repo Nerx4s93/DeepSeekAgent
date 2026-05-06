@@ -6,4 +6,5 @@ SYSTEM COMMANDS:
 TOOLS:
 - PYTHON — выполнение Python-кода
 - WSL — выполнение Linux-команд через WSL
+- POWERSHELL - выполнение Windows-команд через PowerShell
 - WAIT — задержка выполнения
