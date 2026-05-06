@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -179,7 +180,31 @@ public partial class FormMain : Form
                     Console.ResetColor();
                     Console.WriteLine(resultsForAi);
 
-                    response = await SendMessage(_chatSession, resultsForAi, _chatSettings, _lastMessageId);
+                    while (true)
+                    {
+                        try
+                        {
+                            response = await SendMessage(_chatSession, resultsForAi, _chatSettings, _lastMessageId);
+                            break;
+                        }
+                        catch (RateLimitError)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("Rate limit exeption.");
+                            Console.Write("Wait to send message again");
+
+                            for (var i = 0; i < 3; i++)
+                            {
+                                await Task.Delay(2500);
+                                Console.Write(".");
+                            }
+
+                            Console.ResetColor();
+
+                            Console.WriteLine();
+                            Console.WriteLine();
+                        }
+                    }
                 }
                 else
                 {
