@@ -42,7 +42,9 @@ public static class PowerShellManager
         lock (_lock)
         {
             if (_session == null)
+            {
                 return;
+            }    
 
             _session.Output -= HandleOutput;
             _session.Dispose();
