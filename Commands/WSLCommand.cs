@@ -8,8 +8,6 @@ public class WSLCommand : LocalCommand
 {
     public override string Name => "WSL";
 
-    public override string Description => "Выполнение WSL команд.";
-
     private const int TimeoutMs = 1500;
 
     public override async Task<string> ExecuteAsync(string input)

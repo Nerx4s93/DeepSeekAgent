@@ -11,7 +11,6 @@ namespace DeepSeekAgent.Commands;
 public class PythonCommand : LocalCommand
 {
     public override string Name => "PYTHON";
-    public override string Description => "Выполнение Python-кода. Возвращает stdout или stderr.";
 
     public override async Task<string> ExecuteAsync(string input)
     {

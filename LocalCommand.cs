@@ -5,6 +5,5 @@ namespace DeepSeekAgent;
 public abstract class LocalCommand
 {
     public abstract string Name { get; }
-    public abstract string Description { get; }
     public abstract Task<string> ExecuteAsync(string input);
 }
