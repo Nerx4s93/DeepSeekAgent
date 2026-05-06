@@ -18,13 +18,23 @@ public partial class FormWSL : Form
         {
             richTextBoxLogsWSL.Invoke(new Action(() =>
             {
-                richTextBoxLogsWSL.AppendText(obj);
+                AppendAndScroll(obj);
             }));
         }
         else
         {
-            richTextBoxLogsWSL.AppendText(obj);
+            AppendAndScroll(obj);
         }
+    }
+
+    private void AppendAndScroll(string obj)
+    {
+        richTextBoxLogsWSL.AppendText(obj);
+
+        richTextBoxLogsWSL.SelectionStart = richTextBoxLogsWSL.TextLength;
+        richTextBoxLogsWSL.SelectionLength = 0;
+
+        richTextBoxLogsWSL.ScrollToCaret();
     }
 
     private async void textBoxCommandInput_KeyDown(object sender, KeyEventArgs e)
