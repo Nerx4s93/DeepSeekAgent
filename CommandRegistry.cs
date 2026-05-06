@@ -25,7 +25,4 @@ public class CommandRegistry
 
     public LocalCommand? GetCommand(string name) =>
         _commands.TryGetValue(name, out var cmd) ? cmd : null;
-
-    public string GetToolsDescription() =>
-        string.Join("\n", _commands.Values.Select(c => $"{c.Name}: {c.Description}"));
 }
