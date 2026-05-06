@@ -12,7 +12,7 @@ internal static class Program
     private static void Main()
     {
         var apiKey = ReadFile("apikey.txt");
-        WslManager.Start();
+        WslManager.StartWsl();
         ApplicationConfiguration.Initialize();
         Application.Run(new FormMain(apiKey));
     }
