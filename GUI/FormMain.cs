@@ -117,8 +117,9 @@ public partial class FormMain : Form
 
             await Task.Run(async () =>
             {
-                if (_lastMessageId == null)
+                if (_lastMessageId != null)
                 {
+                    Console.WriteLine();
                     Console.WriteLine();
                 }
 
