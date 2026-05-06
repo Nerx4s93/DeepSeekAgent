@@ -25,13 +25,13 @@ public class WSLCommand : LocalCommand
             timer?.Change(TimeoutMs, Timeout.Infinite);
         }
 
-        void OnOut(string data)
+        void OnOutput(string data)
         {
             stringBuilder.AppendLine(data);
             ResetTimer();
         }
 
-        void OnErr(string data)
+        void OnError(string data)
         {
             stringBuilder.AppendLine(data);
             ResetTimer();
@@ -39,8 +39,8 @@ public class WSLCommand : LocalCommand
 
         try
         {
-            WslManager.OnOutput += OnOut;
-            WslManager.OnError += OnErr;
+            WslManager.OnOutput += OnOutput;
+            WslManager.OnError += OnError;
 
             timer = new Timer(_ =>
             {
@@ -57,8 +57,8 @@ public class WSLCommand : LocalCommand
         }
         finally
         {
-            WslManager.OnOutput -= OnOut;
-            WslManager.OnError -= OnErr;
+            WslManager.OnOutput -= OnOutput;
+            WslManager.OnError -= OnError;
 
             timer?.Dispose();
             cts.Cancel();
