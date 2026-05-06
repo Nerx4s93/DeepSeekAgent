@@ -32,7 +32,7 @@ public static class WslManager
             var (inRead, inWrite) = PipeHelper.CreatePipe();
             var (outRead, outWrite) = PipeHelper.CreatePipe();
 
-            var size = new ConPtyNative.COORD
+            var size = new COORD
             {
                 X = (short)width,
                 Y = (short)height
@@ -50,7 +50,7 @@ public static class WslManager
                 throw new Exception($"CreatePseudoConsole failed: {hr}");
 
             // 2. Setup STARTUPINFOEX
-            var siEx = new ConPtyNative.STARTUPINFOEX();
+            var siEx = new STARTUPINFOEX();
             siEx.StartupInfo.cb = (uint)Marshal.SizeOf(siEx);
 
             IntPtr lpSize = IntPtr.Zero;
@@ -73,7 +73,7 @@ public static class WslManager
                 throw new System.ComponentModel.Win32Exception();
 
             // 3. Create process attached to PTY
-            var pi = new ConPtyNative.PROCESS_INFORMATION();
+            var pi = new PROCESS_INFORMATION();
 
             bool success = ConPtyNative.CreateProcess(
                 null,

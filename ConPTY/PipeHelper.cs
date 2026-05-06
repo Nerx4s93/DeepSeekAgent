@@ -25,12 +25,4 @@ internal static class PipeHelper
         out SafeFileHandle hWritePipe,
         ref SECURITY_ATTRIBUTES lpPipeAttributes,
         uint nSize);
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct SECURITY_ATTRIBUTES
-    {
-        public int nLength;
-        public IntPtr lpSecurityDescriptor;
-        public bool bInheritHandle;
-    }
 }
