@@ -56,7 +56,7 @@ partial class FormMain
         menuStrip.Location = new Point(0, 0);
         menuStrip.Name = "menuStrip";
         menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-        menuStrip.Size = new Size(1134, 40);
+        menuStrip.Size = new Size(1221, 40);
         menuStrip.TabIndex = 8;
         menuStrip.Text = "menuStrip1";
         // 
@@ -113,25 +113,25 @@ partial class FormMain
         // 
         // richTextBoxPromt
         // 
-        richTextBoxPromt.BackColor = Color.Black;
+        richTextBoxPromt.BackColor = Color.FromArgb(12, 12, 12);
         richTextBoxPromt.Dock = System.Windows.Forms.DockStyle.Fill;
         richTextBoxPromt.ForeColor = Color.Gainsboro;
         richTextBoxPromt.Location = new Point(0, 0);
         richTextBoxPromt.Name = "richTextBoxPromt";
-        richTextBoxPromt.Size = new Size(1134, 136);
+        richTextBoxPromt.Size = new Size(1221, 136);
         richTextBoxPromt.TabIndex = 9;
         richTextBoxPromt.Text = "";
         richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
         // 
         // richTextBoxLogs
         // 
-        richTextBoxLogs.BackColor = Color.Black;
+        richTextBoxLogs.BackColor = Color.FromArgb(12, 12, 12);
         richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
         richTextBoxLogs.ForeColor = Color.Gainsboro;
         richTextBoxLogs.Location = new Point(0, 0);
         richTextBoxLogs.Name = "richTextBoxLogs";
         richTextBoxLogs.ReadOnly = true;
-        richTextBoxLogs.Size = new Size(1134, 385);
+        richTextBoxLogs.Size = new Size(1221, 385);
         richTextBoxLogs.TabIndex = 10;
         richTextBoxLogs.Text = "";
         // 
@@ -149,19 +149,19 @@ partial class FormMain
         // splitContainer1.Panel2
         // 
         splitContainer1.Panel2.Controls.Add(richTextBoxPromt);
-        splitContainer1.Size = new Size(1134, 525);
+        splitContainer1.Size = new Size(1221, 525);
         splitContainer1.SplitterDistance = 385;
         splitContainer1.TabIndex = 11;
         // 
         // FormMain
         // 
-        AutoScaleDimensions = new SizeF(13F, 32F);
+        AutoScaleDimensions = new SizeF(14F, 32F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         BackColor = Color.Black;
-        ClientSize = new Size(1134, 565);
+        ClientSize = new Size(1221, 565);
         Controls.Add(splitContainer1);
         Controls.Add(menuStrip);
-        Font = new Font("Segoe UI", 12F);
+        Font = new Font("Cascadia Mono", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
         ForeColor = Color.Gray;
         MainMenuStrip = menuStrip;
         Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

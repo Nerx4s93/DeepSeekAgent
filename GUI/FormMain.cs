@@ -138,7 +138,7 @@ public partial class FormMain : Form
                     LogLine();
                 }
 
-                LogLine("[TASK]:", Color.Green);
+                LogLine("[TASK]:", Color.FromArgb(120, 220, 120));
                 LogLine(task.TrimEnd());
                 LogLine();
 
@@ -187,7 +187,7 @@ public partial class FormMain : Form
 
                     LogLine("");
                     LogLine("");
-                    LogLine("[COMMANDS]:", Color.Blue);
+                    LogLine("[COMMANDS]:", Color.FromArgb(120, 170, 255));
                     LogLine(resultsForAi);
 
                     while (true)
@@ -233,7 +233,7 @@ public partial class FormMain : Form
         ChatSettings chatSettings,
         long? parentMessage = null)
     {
-        LogLine("[DEEPSEEK]:", Color.Red);
+        LogLine("[DEEPSEEK]:", Color.FromArgb(220, 80, 80));
 
         long? messageId = null;
         var text = string.Empty;
