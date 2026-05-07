@@ -1,4 +1,5 @@
-﻿using DeepSeekAPI;
+﻿using DeepSeekAgent.Commands;
+using DeepSeekAPI;
 using DeepSeekAPI.Exceptions;
 using DeepSeekAPI.Models.Chat;
 using DeepSeekAPI.Streaming;

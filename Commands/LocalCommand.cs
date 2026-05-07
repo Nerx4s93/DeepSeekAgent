@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DeepSeekAgent;
+namespace DeepSeekAgent.Commands;
 
 public abstract class LocalCommand
 {

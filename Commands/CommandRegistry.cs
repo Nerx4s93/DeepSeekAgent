@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace DeepSeekAgent;
+namespace DeepSeekAgent.Commands;
 
 public class CommandRegistry
 {
