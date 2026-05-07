@@ -273,33 +273,15 @@ public partial class FormMain : Form
         long? messageId = null;
         var text = string.Empty;
 
-        await foreach (var deepSeekEvent in _deepSeekClient.ChatCompletion(
+        await foreach (var token in _deepSeekClient.SendMessageStream(
             chatSession,
             prompt,
             chatSettings,
             parentMessage))
         {
-            if (deepSeekEvent is MessageInitEvent messageInitEvent)
-            {
-                richTextBoxLogs.Log(messageInitEvent.Content ?? "");
-                messageId = messageInitEvent.MessageId;
-                text += messageInitEvent.Content;
-            }
-            else if (deepSeekEvent is PatchEvent patchEvent)
-            {
-                if (patchEvent.Path != "response/fragments/-1/content")
-                {
-                    continue;
-                }
-
-                richTextBoxLogs.Log(patchEvent.Value);
-                text += patchEvent.Value;
-            }
-            else if (deepSeekEvent is TextEvent textEvent)
-            {
-                richTextBoxLogs.Log(textEvent.Text);
-                text += textEvent.Text;
-            }
+            messageId = token.MessageId;
+            text += token.Text;
+            richTextBoxLogs.Log(token.Text);
         }
 
         return (messageId, text);
