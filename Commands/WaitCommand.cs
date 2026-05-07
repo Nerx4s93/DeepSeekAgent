@@ -4,7 +4,9 @@ namespace DeepSeekAgent.Commands;
 
 public class WaitCommand : LocalCommand
 {
+    public override string Group => "TOOLS";
     public override string Name => "WAIT";
+    public override string ShortDescription => "задержка выполнения";
 
     public override async Task<string> ExecuteAsync(string payload)
     {

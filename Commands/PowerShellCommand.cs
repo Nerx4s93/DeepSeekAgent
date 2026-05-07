@@ -6,7 +6,9 @@ namespace DeepSeekAgent.Commands;
 
 public class PowerShellCommand : LocalCommand
 {
+    public override string Group => "TOOLS";
     public override string Name => "POWERSHELL";
+    public override string ShortDescription => "выполнение Windows-команд через PowerShell";
 
     private const int TimeoutMs = 1500;
 

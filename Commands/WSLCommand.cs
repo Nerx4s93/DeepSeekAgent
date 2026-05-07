@@ -6,7 +6,10 @@ namespace DeepSeekAgent.Commands;
 
 public class WSLCommand : LocalCommand
 {
+    public override string Group => "TOOLS";
     public override string Name => "WSL";
+    public override string ShortDescription => "выполнение Linux-команд через WSL";
+
 
     private const int TimeoutMs = 1500;
 

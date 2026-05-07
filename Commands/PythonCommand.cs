@@ -10,7 +10,9 @@ namespace DeepSeekAgent.Commands;
 
 public class PythonCommand : LocalCommand
 {
+    public override string Group => "TOOLS";
     public override string Name => "PYTHON";
+    public override string ShortDescription => "выполнение Python-кода";
 
     public override async Task<string> ExecuteAsync(string payload)
     {

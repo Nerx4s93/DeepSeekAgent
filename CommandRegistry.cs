@@ -23,6 +23,9 @@ public class CommandRegistry
         }
     }
 
+    public List<LocalCommand> GetCommands() =>
+        _commands.Select(c => c.Value).ToList();
+
     public LocalCommand? GetCommand(string name) =>
         _commands.TryGetValue(name, out var cmd) ? cmd : null;
 }

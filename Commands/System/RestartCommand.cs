@@ -4,7 +4,9 @@ namespace DeepSeekAgent.Commands.System;
 
 public class RestartCommand : LocalCommand
 {
+    public override string Group => "SYSTEM COMMANDS";
     public override string Name => "RESTART";
+    public override string ShortDescription => "перезапуск утилит при необходимости";
 
     public override Task<string> ExecuteAsync(string payload)
     {
