@@ -57,7 +57,7 @@ public partial class FormMain : Form
         var powerShell = new PseudoConsoleProcess();
 
         wsl.Start("wsl.exe", "");
-        powerShell.Start("wsl.exe", "");
+        powerShell.Start("powershell.exe", "");
 
         _localCommandContext = new LocalCommandContext()
         {
@@ -139,9 +139,14 @@ public partial class FormMain : Form
 
     #region Инструменты
 
-    private void buttonWSL_Click(object sender, EventArgs e)
+    private void buttonShowWSL_Click(object sender, EventArgs e)
     {
-        new FormWSL(_localCommandContext).Show();
+        new FormPseudoConsole(_localCommandContext.WSL).Show();
+    }
+
+    private void buttonShowPowerShell_Click(object sender, EventArgs e)
+    {
+        new FormPseudoConsole(_localCommandContext.PowerShell).Show();
     }
 
     #endregion

@@ -1,6 +1,6 @@
 ﻿namespace DeepSeekAgent.GUI;
 
-partial class FormWSL
+partial class FormPseudoConsole
 {
     /// <summary>
     /// Required designer variable.
@@ -28,23 +28,11 @@ partial class FormWSL
     /// </summary>
     private void InitializeComponent()
     {
-        richTextBoxLogsWSL = new System.Windows.Forms.RichTextBox();
         textBoxCommandInput = new System.Windows.Forms.TextBox();
         panel1 = new System.Windows.Forms.Panel();
+        richTextBoxLogs = new DeepSeekAgent.UI.FastRichTextBox();
         panel1.SuspendLayout();
         SuspendLayout();
-        // 
-        // richTextBoxLogsWSL
-        // 
-        richTextBoxLogsWSL.BackColor = System.Drawing.Color.FromArgb(12, 12, 12);
-        richTextBoxLogsWSL.Dock = System.Windows.Forms.DockStyle.Fill;
-        richTextBoxLogsWSL.ForeColor = System.Drawing.Color.Gainsboro;
-        richTextBoxLogsWSL.Location = new System.Drawing.Point(0, 0);
-        richTextBoxLogsWSL.Name = "richTextBoxLogsWSL";
-        richTextBoxLogsWSL.ReadOnly = true;
-        richTextBoxLogsWSL.Size = new System.Drawing.Size(918, 479);
-        richTextBoxLogsWSL.TabIndex = 0;
-        richTextBoxLogsWSL.Text = "";
         // 
         // textBoxCommandInput
         // 
@@ -59,14 +47,25 @@ partial class FormWSL
         // 
         // panel1
         // 
-        panel1.Controls.Add(richTextBoxLogsWSL);
+        panel1.Controls.Add(richTextBoxLogs);
         panel1.Dock = System.Windows.Forms.DockStyle.Fill;
         panel1.Location = new System.Drawing.Point(0, 0);
         panel1.Name = "panel1";
         panel1.Size = new System.Drawing.Size(918, 479);
         panel1.TabIndex = 2;
         // 
-        // FormWSL
+        // richTextBoxLogs
+        // 
+        richTextBoxLogs.BackColor = System.Drawing.Color.FromArgb(12, 12, 12);
+        richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+        richTextBoxLogs.ForeColor = System.Drawing.Color.Gainsboro;
+        richTextBoxLogs.Location = new System.Drawing.Point(0, 0);
+        richTextBoxLogs.Name = "richTextBoxLogs";
+        richTextBoxLogs.Size = new System.Drawing.Size(918, 479);
+        richTextBoxLogs.TabIndex = 0;
+        richTextBoxLogs.Text = "";
+        // 
+        // FormPseudoConsole
         // 
         AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -76,7 +75,7 @@ partial class FormWSL
         Controls.Add(textBoxCommandInput);
         Font = new System.Drawing.Font("Cascadia Mono", 10F);
         ForeColor = System.Drawing.Color.Gainsboro;
-        Name = "FormWSL";
+        Name = "FormPseudoConsole";
         Text = "FormWSL";
         panel1.ResumeLayout(false);
         ResumeLayout(false);
@@ -84,8 +83,7 @@ partial class FormWSL
     }
 
     #endregion
-
-    private System.Windows.Forms.RichTextBox richTextBoxLogsWSL;
     private System.Windows.Forms.TextBox textBoxCommandInput;
     private System.Windows.Forms.Panel panel1;
+    private UI.FastRichTextBox richTextBoxLogs;
 }

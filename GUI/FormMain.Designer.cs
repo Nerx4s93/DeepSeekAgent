@@ -36,10 +36,11 @@ partial class FormMain
         настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonChangeApiKey = new System.Windows.Forms.ToolStripMenuItem();
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        buttonWSL = new System.Windows.Forms.ToolStripMenuItem();
+        buttonShowWSL = new System.Windows.Forms.ToolStripMenuItem();
+        buttonShowPowerShell = new System.Windows.Forms.ToolStripMenuItem();
         splitContainer1 = new System.Windows.Forms.SplitContainer();
-        richTextBoxPromt = new DeepSeekAgent.UI.FastRichTextBox();
         richTextBoxLogs = new DeepSeekAgent.UI.LogsRichTextBox();
+        richTextBoxPromt = new DeepSeekAgent.UI.FastRichTextBox();
         menuStrip.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
@@ -96,20 +97,29 @@ partial class FormMain
         // 
         // инструментыToolStripMenuItem
         // 
-        инструментыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonWSL });
+        инструментыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonShowWSL, buttonShowPowerShell });
         инструментыToolStripMenuItem.ForeColor = Color.Gainsboro;
         инструментыToolStripMenuItem.Name = "инструментыToolStripMenuItem";
         инструментыToolStripMenuItem.Size = new Size(180, 36);
         инструментыToolStripMenuItem.Text = "Инструменты";
         // 
-        // buttonWSL
+        // buttonShowWSL
         // 
-        buttonWSL.BackColor = Color.FromArgb(30, 30, 30);
-        buttonWSL.ForeColor = Color.Gainsboro;
-        buttonWSL.Name = "buttonWSL";
-        buttonWSL.Size = new Size(164, 40);
-        buttonWSL.Text = "WSL";
-        buttonWSL.Click += buttonWSL_Click;
+        buttonShowWSL.BackColor = Color.FromArgb(30, 30, 30);
+        buttonShowWSL.ForeColor = Color.Gainsboro;
+        buttonShowWSL.Name = "buttonShowWSL";
+        buttonShowWSL.Size = new Size(270, 40);
+        buttonShowWSL.Text = "WSL";
+        buttonShowWSL.Click += buttonShowWSL_Click;
+        // 
+        // buttonShowPowerShell
+        // 
+        buttonShowPowerShell.BackColor = Color.FromArgb(30, 30, 30);
+        buttonShowPowerShell.ForeColor = Color.Gainsboro;
+        buttonShowPowerShell.Name = "buttonShowPowerShell";
+        buttonShowPowerShell.Size = new Size(270, 40);
+        buttonShowPowerShell.Text = "PowerShell";
+        buttonShowPowerShell.Click += buttonShowPowerShell_Click;
         // 
         // splitContainer1
         // 
@@ -130,6 +140,17 @@ partial class FormMain
         splitContainer1.SplitterDistance = 385;
         splitContainer1.TabIndex = 11;
         // 
+        // richTextBoxLogs
+        // 
+        richTextBoxLogs.BackColor = Color.FromArgb(12, 12, 12);
+        richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
+        richTextBoxLogs.ForeColor = Color.Gainsboro;
+        richTextBoxLogs.Location = new Point(0, 0);
+        richTextBoxLogs.Name = "richTextBoxLogs";
+        richTextBoxLogs.Size = new Size(1221, 385);
+        richTextBoxLogs.TabIndex = 0;
+        richTextBoxLogs.Text = "";
+        // 
         // richTextBoxPromt
         // 
         richTextBoxPromt.BackColor = Color.FromArgb(12, 12, 12);
@@ -141,17 +162,6 @@ partial class FormMain
         richTextBoxPromt.TabIndex = 0;
         richTextBoxPromt.Text = "";
         richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
-        // 
-        // richTextBoxLogs
-        // 
-        richTextBoxLogs.BackColor = Color.FromArgb(12, 12, 12);
-        richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-        richTextBoxLogs.ForeColor = Color.Gainsboro;
-        richTextBoxLogs.Location = new Point(0, 0);
-        richTextBoxLogs.Name = "richTextBoxLogs";
-        richTextBoxLogs.Size = new Size(1221, 385);
-        richTextBoxLogs.TabIndex = 0;
-        richTextBoxLogs.Text = "";
         // 
         // FormMain
         // 
@@ -184,8 +194,9 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonChangeApiKey;
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem buttonWSL;
+    private System.Windows.Forms.ToolStripMenuItem buttonShowWSL;
     private System.Windows.Forms.SplitContainer splitContainer1;
     private UI.FastRichTextBox richTextBoxPromt;
     private UI.LogsRichTextBox richTextBoxLogs;
+    private System.Windows.Forms.ToolStripMenuItem buttonShowPowerShell;
 }

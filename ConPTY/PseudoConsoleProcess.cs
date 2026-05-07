@@ -19,6 +19,7 @@ public sealed class PseudoConsoleProcess : IDisposable
 
     private readonly CancellationTokenSource _cts = new();
 
+    public event Action<string>? RawOutput;
     public event Action<string>? Output;
 
     public bool IsRunning => _process != null && !_process.HasExited;
@@ -110,6 +111,7 @@ public sealed class PseudoConsoleProcess : IDisposable
             }
 
             var text = Encoding.UTF8.GetString(buffer, 0, read);
+            RawOutput?.Invoke(text);
             Output?.Invoke(AnsiCleaner.Strip(text));
         }
     }
