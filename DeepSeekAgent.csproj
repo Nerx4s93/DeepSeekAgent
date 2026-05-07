@@ -15,10 +15,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\DeepSeekAPI\DeepSeekAPI\DeepSeekAPI.csproj" />
+	  <Folder Include="Resources\Commands\Info\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Resources\Commands\Info\" />
+	  <PackageReference Include="DeepSeekAPI" Version="1.2.4" />
 	</ItemGroup>
 </Project>

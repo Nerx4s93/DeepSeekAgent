@@ -1,4 +1,3 @@
 <Solution>
-  <Project Path="../DeepSeekAPI/DeepSeekAPI/DeepSeekAPI.csproj" />
   <Project Path="DeepSeekAgent.csproj" />
 </Solution>
