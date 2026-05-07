@@ -17,6 +17,11 @@ namespace DeepSeekAgent.GUI;
 
 public partial class FormMain : Form
 {
+    private readonly Color TASK_COLOR = Color.FromArgb(120, 220, 120);
+    private readonly Color COMMANDS_COLOR = Color.FromArgb(120, 170, 255);
+    private readonly Color DEEPSEEK_COLOR = Color.FromArgb(220, 80, 80);
+    private readonly Color API_ERROR_COLOR = Color.FromArgb(220, 190, 80);
+
     private CommandRegistry _commandRegistry = null!;
     private AgentCommandParser _agentCommandParser = null!;
     private AgentCommandExecutor _agentCommandExecutor = null!;
@@ -138,7 +143,7 @@ public partial class FormMain : Form
                     richTextBoxLogs.LogLine();
                 }
 
-                richTextBoxLogs.LogLine("[TASK]:", Color.FromArgb(120, 220, 120));
+                richTextBoxLogs.LogLine("[TASK]:", TASK_COLOR);
                 richTextBoxLogs.LogLine(task.TrimEnd());
                 richTextBoxLogs.LogLine();
 
@@ -187,7 +192,7 @@ public partial class FormMain : Form
 
                     richTextBoxLogs.LogLine("");
                     richTextBoxLogs.LogLine("");
-                    richTextBoxLogs.LogLine("[COMMANDS]:", Color.FromArgb(120, 170, 255));
+                    richTextBoxLogs.LogLine("[COMMANDS]:", COMMANDS_COLOR);
                     richTextBoxLogs.LogLine(resultsForAi);
 
                     while (true)
@@ -199,13 +204,13 @@ public partial class FormMain : Form
                         }
                         catch (RateLimitError)
                         {
-                            richTextBoxLogs.LogLine("Rate limit exeption.", Color.Yellow);
-                            richTextBoxLogs.Log("Wait to send message again", Color.Yellow);
+                            richTextBoxLogs.LogLine("Rate limit exeption.", API_ERROR_COLOR);
+                            richTextBoxLogs.Log("Wait to send message again", API_ERROR_COLOR);
 
                             for (var i = 0; i < 3; i++)
                             {
                                 await Task.Delay(2500);
-                                richTextBoxLogs.Log(".", Color.Yellow);
+                                richTextBoxLogs.Log(".", API_ERROR_COLOR);
                             }
 
                             richTextBoxLogs.LogLine();
@@ -233,7 +238,7 @@ public partial class FormMain : Form
         ChatSettings chatSettings,
         long? parentMessage = null)
     {
-        richTextBoxLogs.LogLine("[DEEPSEEK]:", Color.FromArgb(220, 80, 80));
+        richTextBoxLogs.LogLine("[DEEPSEEK]:", DEEPSEEK_COLOR);
 
         long? messageId = null;
         var text = string.Empty;
