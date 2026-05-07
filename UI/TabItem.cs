@@ -14,4 +14,5 @@ public class TabItem
     public string Text { get; set; }
     public TabNavigationButton Button { get; set; }
     public Control Content { get; set; }
+    public object? Tag { get; set; }
 }

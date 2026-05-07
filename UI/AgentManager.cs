@@ -48,6 +48,7 @@ public class AgentManager : SideTabControl
             chatSettings);
 
         var tab = AddTab("deepseek");
+        tab.Tag = agentChat;
         if (InvokeRequired)
         {
             Invoke(() => tab.Content.Controls.Add(agentChat));
@@ -55,6 +56,28 @@ public class AgentManager : SideTabControl
         else
         {
             tab.Content.Controls.Add(agentChat);
+        }
+    }
+
+    public LocalCommandContext? GetLocalCommandContextSelectedTab()
+    {
+        if (SelectedTab != null &&
+            SelectedTab.Tag != null &&
+            SelectedTab.Tag is AgentChat agentChat)
+        {
+            return agentChat.LocalCommandContext;
+        }
+
+        return null;
+    }
+
+    public async Task ClearHistorySelectedTab()
+    {
+        if (SelectedTab != null &&
+            SelectedTab.Tag != null &&
+            SelectedTab.Tag is AgentChat agentChat)
+        {
+            await agentChat.ClearHistory();
         }
     }
 }

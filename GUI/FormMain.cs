@@ -36,7 +36,7 @@ public partial class FormMain : Form
 
     private async void buttonClearHistory_Click(object sender, EventArgs e)
     {
-
+        await agentManager.ClearHistorySelectedTab();
     }
 
     #endregion
@@ -77,12 +77,28 @@ public partial class FormMain : Form
 
     private void buttonShowWSL_Click(object sender, EventArgs e)
     {
-        //new FormPseudoConsole(_localCommandContext.WSL).Show();
+        var context = agentManager.GetLocalCommandContextSelectedTab();
+
+        if (context == null)
+        {
+            return;
+        }
+
+        var wsl = context.WSL;
+        new FormPseudoConsole(wsl).Show();
     }
 
     private void buttonShowPowerShell_Click(object sender, EventArgs e)
     {
-        //new FormPseudoConsole(_localCommandContext.PowerShell).Show();
+        var context = agentManager.GetLocalCommandContextSelectedTab();
+
+        if (context == null)
+        {
+            return;
+        }
+
+        var powerShell = context.PowerShell;
+        new FormPseudoConsole(powerShell).Show();
     }
 
     #endregion

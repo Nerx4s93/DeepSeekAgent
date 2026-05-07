@@ -52,6 +52,13 @@ public partial class AgentChat : UserControl
         });
     }
 
+    public LocalCommandContext LocalCommandContext => _localCommandContext;
+
+    public async Task ClearHistory()
+    {
+        await CreateChatSession();
+    }
+
     private async Task CreateChatSession()
     {
         try
