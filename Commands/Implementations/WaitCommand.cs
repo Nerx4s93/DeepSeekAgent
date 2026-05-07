@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DeepSeekAgent.Commands;
+namespace DeepSeekAgent.Commands.Implementations;
 
 public class WaitCommand : LocalCommand
 {

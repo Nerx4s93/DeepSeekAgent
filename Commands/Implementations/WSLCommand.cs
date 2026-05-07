@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DeepSeekAgent.Commands;
+namespace DeepSeekAgent.Commands.Implementations;
 
 public class WSLCommand : LocalCommand
 {

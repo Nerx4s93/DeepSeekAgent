@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeepSeekAgent.Commands;
+namespace DeepSeekAgent.Commands.Implementations;
 
 public class PythonCommand : LocalCommand
 {
