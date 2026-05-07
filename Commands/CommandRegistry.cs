@@ -12,6 +12,8 @@ public class CommandRegistry
 
     public CommandRegistry(LocalCommandContext context)
     {
+        context.CommandRegistry = this;
+
         var commandType = typeof(LocalCommand);
 
         var types = Assembly.GetExecutingAssembly().GetTypes()

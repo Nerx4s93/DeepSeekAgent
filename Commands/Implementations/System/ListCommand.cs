@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands.Implementations.System;
 
@@ -12,6 +13,28 @@ public class ListCommand : LocalCommand
 
     public override Task<string> ExecuteAsync(string payload)
     {
-        return Task.FromResult(ResourcesDataLoader.GetDataText("Commands.Response.LIST.txt")!);
+        if (Context.CommandRegistry == null)
+        {
+            return Task.FromResult("Context.CommandRegistry == null. Команда не работает.");
+        }
+
+        var commands = Context.CommandRegistry.GetCommands();
+        var groups = commands.GroupBy(c => c.Group);
+
+        var response = "";
+
+        foreach (var group in groups)
+        {
+            response += $"{group.Key}:\n";
+
+            foreach (var cmd in group)
+            {
+                response += $" - {cmd.Name} : {cmd.ShortDescription}\n";
+            }
+
+            response += "\n";
+        }
+
+        return Task.FromResult(response);
     }
 }
