@@ -76,7 +76,7 @@ partial class FormPseudoConsole
         Font = new System.Drawing.Font("Cascadia Mono", 10F);
         ForeColor = System.Drawing.Color.Gainsboro;
         Name = "FormPseudoConsole";
-        Text = "FormWSL";
+        Text = "PseudoConsole";
         panel1.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
