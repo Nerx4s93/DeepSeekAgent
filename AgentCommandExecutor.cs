@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeepSeekAgent;
 
-internal class AgentCommandExecutor
+public class AgentCommandExecutor
 {
     private readonly CommandRegistry _commandRegistry;
 

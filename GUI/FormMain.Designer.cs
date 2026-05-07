@@ -38,14 +38,8 @@ partial class FormMain
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowWSL = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowPowerShell = new System.Windows.Forms.ToolStripMenuItem();
-        splitContainer1 = new System.Windows.Forms.SplitContainer();
-        richTextBoxLogs = new DeepSeekAgent.UI.LogsRichTextBox();
-        richTextBoxPromt = new DeepSeekAgent.UI.FastRichTextBox();
+        agentManager = new DeepSeekAgent.UI.AgentManager();
         menuStrip.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-        splitContainer1.Panel1.SuspendLayout();
-        splitContainer1.Panel2.SuspendLayout();
-        splitContainer1.SuspendLayout();
         SuspendLayout();
         // 
         // menuStrip
@@ -108,7 +102,7 @@ partial class FormMain
         buttonShowWSL.BackColor = Color.FromArgb(30, 30, 30);
         buttonShowWSL.ForeColor = Color.Gainsboro;
         buttonShowWSL.Name = "buttonShowWSL";
-        buttonShowWSL.Size = new Size(270, 40);
+        buttonShowWSL.Size = new Size(234, 40);
         buttonShowWSL.Text = "WSL";
         buttonShowWSL.Click += buttonShowWSL_Click;
         // 
@@ -117,59 +111,29 @@ partial class FormMain
         buttonShowPowerShell.BackColor = Color.FromArgb(30, 30, 30);
         buttonShowPowerShell.ForeColor = Color.Gainsboro;
         buttonShowPowerShell.Name = "buttonShowPowerShell";
-        buttonShowPowerShell.Size = new Size(270, 40);
+        buttonShowPowerShell.Size = new Size(234, 40);
         buttonShowPowerShell.Text = "PowerShell";
         buttonShowPowerShell.Click += buttonShowPowerShell_Click;
         // 
-        // splitContainer1
+        // agentManager
         // 
-        splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-        splitContainer1.Location = new Point(0, 40);
-        splitContainer1.Name = "splitContainer1";
-        splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-        // 
-        // splitContainer1.Panel1
-        // 
-        splitContainer1.Panel1.BackColor = Color.FromArgb(12, 12, 12);
-        splitContainer1.Panel1.Controls.Add(richTextBoxLogs);
-        // 
-        // splitContainer1.Panel2
-        // 
-        splitContainer1.Panel2.Controls.Add(richTextBoxPromt);
-        splitContainer1.Size = new Size(1221, 525);
-        splitContainer1.SplitterDistance = 385;
-        splitContainer1.TabIndex = 11;
-        // 
-        // richTextBoxLogs
-        // 
-        richTextBoxLogs.BackColor = Color.FromArgb(12, 12, 12);
-        richTextBoxLogs.Dock = System.Windows.Forms.DockStyle.Fill;
-        richTextBoxLogs.ForeColor = Color.Gainsboro;
-        richTextBoxLogs.Location = new Point(0, 0);
-        richTextBoxLogs.Name = "richTextBoxLogs";
-        richTextBoxLogs.Size = new Size(1221, 385);
-        richTextBoxLogs.TabIndex = 0;
-        richTextBoxLogs.Text = "";
-        // 
-        // richTextBoxPromt
-        // 
-        richTextBoxPromt.BackColor = Color.FromArgb(12, 12, 12);
-        richTextBoxPromt.Dock = System.Windows.Forms.DockStyle.Fill;
-        richTextBoxPromt.ForeColor = Color.Gainsboro;
-        richTextBoxPromt.Location = new Point(0, 0);
-        richTextBoxPromt.Name = "richTextBoxPromt";
-        richTextBoxPromt.Size = new Size(1221, 136);
-        richTextBoxPromt.TabIndex = 0;
-        richTextBoxPromt.Text = "";
-        richTextBoxPromt.KeyDown += richTextBoxPromt_KeyDown;
+        agentManager.BackColor = Color.FromArgb(12, 12, 12);
+        agentManager.Dock = System.Windows.Forms.DockStyle.Fill;
+        agentManager.Font = new Font("Cascadia Mono", 12F);
+        agentManager.ForeColor = Color.Gainsboro;
+        agentManager.Location = new Point(0, 40);
+        agentManager.Margin = new System.Windows.Forms.Padding(4);
+        agentManager.Name = "agentManager";
+        agentManager.Size = new Size(1221, 525);
+        agentManager.TabIndex = 10;
         // 
         // FormMain
         // 
         AutoScaleDimensions = new SizeF(14F, 32F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        BackColor = Color.Black;
+        BackColor = Color.FromArgb(12, 12, 12);
         ClientSize = new Size(1221, 565);
-        Controls.Add(splitContainer1);
+        Controls.Add(agentManager);
         Controls.Add(menuStrip);
         Font = new Font("Cascadia Mono", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
         ForeColor = Color.Gainsboro;
@@ -177,12 +141,9 @@ partial class FormMain
         Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
         Name = "FormMain";
         Text = "FormMain";
+        Shown += FormMain_Shown;
         menuStrip.ResumeLayout(false);
         menuStrip.PerformLayout();
-        splitContainer1.Panel1.ResumeLayout(false);
-        splitContainer1.Panel2.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-        splitContainer1.ResumeLayout(false);
         ResumeLayout(false);
         PerformLayout();
     }
@@ -195,8 +156,6 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem buttonChangeApiKey;
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonShowWSL;
-    private System.Windows.Forms.SplitContainer splitContainer1;
-    private UI.FastRichTextBox richTextBoxPromt;
-    private UI.LogsRichTextBox richTextBoxLogs;
     private System.Windows.Forms.ToolStripMenuItem buttonShowPowerShell;
+    private UI.AgentManager agentManager;
 }

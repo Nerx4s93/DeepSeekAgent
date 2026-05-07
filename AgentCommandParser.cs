@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace DeepSeekAgent;
 
-internal class AgentCommandParser
+public class AgentCommandParser
 {
     private static readonly Regex BlockRegex = new(
         @"COMMAND\s+(?<tool>\w+)\s*\r?\n(?<payload>.*?)\r?\nEND\s+\k<tool>",
