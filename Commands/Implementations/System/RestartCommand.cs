@@ -4,6 +4,8 @@ namespace DeepSeekAgent.Commands.Implementations.System;
 
 public class RestartCommand : LocalCommand
 {
+    public RestartCommand(LocalCommandContext context) : base(context) { }
+
     public override string Group => "SYSTEM COMMANDS";
     public override string Name => "RESTART";
     public override string ShortDescription => "перезапуск утилит при необходимости";
@@ -14,14 +16,14 @@ public class RestartCommand : LocalCommand
         {
             case "WSL":
                 {
-                    WslManager.Stop();
-                    WslManager.StartWsl();
+                    Context.WSL.Dispose();
+                    Context.WSL.Start("wsl.exe", "");
                     return Task.FromResult("WSL перезапущен");
                 }
             case "POWERSHELL":
                 {
-                    PowerShellManager.Stop();
-                    PowerShellManager.StartPowerShell();
+                    Context.WSL.Dispose();
+                    Context.WSL.Start("powershell.exe", "");
                     return Task.FromResult("POWERSHELL перезапущен");
                 }
             default:

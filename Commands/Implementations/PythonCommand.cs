@@ -10,6 +10,8 @@ namespace DeepSeekAgent.Commands.Implementations;
 
 public class PythonCommand : LocalCommand
 {
+    public PythonCommand(LocalCommandContext context) : base(context) { }
+
     public override string Group => "TOOLS";
     public override string Name => "PYTHON";
     public override string ShortDescription => "выполнение Python-кода";

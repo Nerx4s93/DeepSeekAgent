@@ -6,12 +6,13 @@ namespace DeepSeekAgent.Commands.Implementations;
 
 public class WSLCommand : LocalCommand
 {
+    private const int TimeoutMs = 1500;
+
+    public WSLCommand(LocalCommandContext context) : base(context) { }
+
     public override string Group => "TOOLS";
     public override string Name => "WSL";
     public override string ShortDescription => "выполнение Linux-команд через WSL";
-
-
-    private const int TimeoutMs = 1500;
 
     public override async Task<string> ExecuteAsync(string payload)
     {
@@ -33,7 +34,7 @@ public class WSLCommand : LocalCommand
 
         try
         {
-            WslManager.Output += OnOutput;
+            Context.WSL.Output += OnOutput;
 
             timer = new Timer(_ =>
             {
@@ -42,7 +43,7 @@ public class WSLCommand : LocalCommand
 
             ResetTimer();
 
-            await WslManager.WriteAsync(payload);
+            await Context.WSL.WriteAsync(payload);
 
             var executeResult = await tcs.Task;
 
@@ -54,7 +55,7 @@ public class WSLCommand : LocalCommand
         }
         finally
         {
-            WslManager.Output -= OnOutput;
+            Context.WSL.Output -= OnOutput;
             timer?.Dispose();
         }
     }

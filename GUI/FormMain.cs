@@ -1,4 +1,5 @@
 ﻿using DeepSeekAgent.Commands;
+using DeepSeekAgent.ConPTY;
 using DeepSeekAPI;
 using DeepSeekAPI.Exceptions;
 using DeepSeekAPI.Models.Chat;
@@ -23,6 +24,7 @@ public partial class FormMain : Form
     private readonly Color DEEPSEEK_COLOR = Color.FromArgb(220, 80, 80);
     private readonly Color API_ERROR_COLOR = Color.FromArgb(220, 190, 80);
 
+    private LocalCommandContext _localCommandContext = null!;
     private CommandRegistry _commandRegistry = null!;
     private AgentCommandParser _agentCommandParser = null!;
     private AgentCommandExecutor _agentCommandExecutor = null!;
@@ -36,12 +38,34 @@ public partial class FormMain : Form
     public FormMain(string apiKey)
     {
         InitializeComponent();
-        _ = Init(apiKey);
+        Task.Run(async () =>
+        {
+            try
+            {
+                await Init(apiKey);
+            }
+            catch (Exception ex)
+            {
+                richTextBoxLogs.LogLine(ex.ToString(), Color.Red);
+            }
+        });
     }
 
     private async Task Init(string apiKey)
     {
-        _commandRegistry = new CommandRegistry();
+        var wsl = new PseudoConsoleProcess();
+        var powerShell = new PseudoConsoleProcess();
+
+        wsl.Start("wsl.exe", "");
+        powerShell.Start("wsl.exe", "");
+
+        _localCommandContext = new LocalCommandContext()
+        {
+            WSL = wsl,
+            PowerShell = powerShell
+        };
+
+        _commandRegistry = new CommandRegistry(_localCommandContext);
         _agentCommandParser = new AgentCommandParser();
         _agentCommandExecutor = new AgentCommandExecutor(_commandRegistry);
         try
@@ -117,7 +141,7 @@ public partial class FormMain : Form
 
     private void buttonWSL_Click(object sender, EventArgs e)
     {
-        new FormWSL().Show();
+        new FormWSL(_localCommandContext).Show();
     }
 
     #endregion

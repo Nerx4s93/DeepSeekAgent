@@ -4,6 +4,8 @@ namespace DeepSeekAgent.Commands.Implementations;
 
 public class WaitCommand : LocalCommand
 {
+    public WaitCommand(LocalCommandContext context) : base(context) { }
+
     public override string Group => "TOOLS";
     public override string Name => "WAIT";
     public override string ShortDescription => "задержка выполнения";

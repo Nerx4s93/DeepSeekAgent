@@ -4,6 +4,8 @@ namespace DeepSeekAgent.Commands.Implementations.System;
 
 internal class InfoCommand : LocalCommand
 {
+    public InfoCommand(LocalCommandContext context) : base(context) { }
+
     public override string Group => "SYSTEM COMMANDS";
     public override string Name => "INFO";
     public override string ShortDescription => "подробная информация о команде или утилите";

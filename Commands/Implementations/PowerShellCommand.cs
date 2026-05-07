@@ -6,11 +6,13 @@ namespace DeepSeekAgent.Commands.Implementations;
 
 public class PowerShellCommand : LocalCommand
 {
+    private const int TimeoutMs = 1500;
+
+    public PowerShellCommand(LocalCommandContext context) : base(context) { }
+
     public override string Group => "TOOLS";
     public override string Name => "POWERSHELL";
     public override string ShortDescription => "выполнение Windows-команд через PowerShell";
-
-    private const int TimeoutMs = 1500;
 
     public override async Task<string> ExecuteAsync(string payload)
     {
@@ -32,7 +34,7 @@ public class PowerShellCommand : LocalCommand
 
         try
         {
-            PowerShellManager.Output += OnOutput;
+            Context.PowerShell.Output += OnOutput;
 
             timer = new Timer(_ =>
             {
@@ -41,7 +43,7 @@ public class PowerShellCommand : LocalCommand
 
             ResetTimer();
 
-            await PowerShellManager.WriteAsync(payload + "\r");
+            await Context.PowerShell.WriteAsync(payload + "\r");
 
             var executeResult = await tcs.Task;
 
@@ -53,7 +55,7 @@ public class PowerShellCommand : LocalCommand
         }
         finally
         {
-            PowerShellManager.Output -= OnOutput;
+            Context.PowerShell.Output -= OnOutput;
             timer?.Dispose();
         }
     }

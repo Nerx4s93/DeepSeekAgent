@@ -10,15 +10,16 @@ public class CommandRegistry
 {
     private readonly Dictionary<string, LocalCommand> _commands = new(StringComparer.OrdinalIgnoreCase);
 
-    public CommandRegistry()
+    public CommandRegistry(LocalCommandContext context)
     {
         var commandType = typeof(LocalCommand);
+
         var types = Assembly.GetExecutingAssembly().GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && commandType.IsAssignableFrom(t));
 
         foreach (var type in types)
         {
-            var command = (LocalCommand)Activator.CreateInstance(type)!;
+            var command = (LocalCommand)Activator.CreateInstance(type, context)!;
             _commands.Add(command.Name, command);
         }
     }

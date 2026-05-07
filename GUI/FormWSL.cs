@@ -1,15 +1,18 @@
-﻿using System;
+﻿using DeepSeekAgent.Commands;
+using System;
 using System.Windows.Forms;
 
 namespace DeepSeekAgent.GUI;
 
 public partial class FormWSL : Form
 {
-    public FormWSL()
+    private readonly LocalCommandContext _localCommandContext;
+
+    public FormWSL(LocalCommandContext localCommandContext)
     {
         InitializeComponent();
-
-        WslManager.Output += Wsl_Output;
+        _localCommandContext = localCommandContext;
+        localCommandContext.WSL.Output += Wsl_Output;
     }
 
     private void Wsl_Output(string obj)
@@ -44,13 +47,13 @@ public partial class FormWSL : Form
             var cmd = textBoxCommandInput.Text;
             textBoxCommandInput.Clear();
 
-            await WslManager.WriteAsync(cmd);
+            await _localCommandContext.WSL.WriteAsync(cmd);
         }
     }
 
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
-        WslManager.Output -= Wsl_Output;
+        _localCommandContext.WSL.Output -= Wsl_Output;
         base.OnFormClosed(e);
     }
 }
