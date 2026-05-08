@@ -14,6 +14,8 @@ public class AgentManager : SideTabControl
     {
         var deepSeekClient = new DeepSeekClient(token);
 
+        var userProfile = await deepSeekClient.GetUserProfileAsync();
+
         var chatSettings = new ChatSettings()
         {
             ModelType = ModelType.Expert,
@@ -47,7 +49,7 @@ public class AgentManager : SideTabControl
             deepSeekClient,
             chatSettings);
 
-        var tab = AddTab("deepseek");
+        var tab = AddTab(userProfile.Email);
         tab.Tag = agentChat;
         if (InvokeRequired)
         {
