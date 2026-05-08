@@ -12,52 +12,59 @@ public class AgentManager : SideTabControl
 {
     public async Task AddDeepSeekClient(string token)
     {
-        var deepSeekClient = new DeepSeekClient(token);
-
-        var userProfile = await deepSeekClient.GetUserProfileAsync();
-
-        var chatSettings = new ChatSettings()
+        try
         {
-            ModelType = ModelType.Expert,
-            Search = false,
-            Thinking = false
-        };
+            var deepSeekClient = new DeepSeekClient(token);
 
-        var wsl = new PseudoConsoleProcess();
-        var powerShell = new PseudoConsoleProcess();
+            var userProfile = await deepSeekClient.GetUserProfileAsync();
 
-        wsl.Start("wsl.exe", "");
-        powerShell.Start("powershell.exe", "");
+            var chatSettings = new ChatSettings()
+            {
+                ModelType = ModelType.Expert,
+                Search = false,
+                Thinking = false
+            };
 
-        var localCommandContext = new LocalCommandContext()
-        {
-            WSL = wsl,
-            PowerShell = powerShell
-        };
+            var wsl = new PseudoConsoleProcess();
+            var powerShell = new PseudoConsoleProcess();
 
-        var commandRegistry = new CommandRegistry(localCommandContext);
-        var agentCommandParser = new AgentCommandParser();
-        var agentCommandExecutor = new AgentCommandExecutor(commandRegistry);
+            wsl.Start("wsl.exe", "");
+            powerShell.Start("powershell.exe", "");
+
+            var localCommandContext = new LocalCommandContext()
+            {
+                WSL = wsl,
+                PowerShell = powerShell
+            };
+
+            var commandRegistry = new CommandRegistry(localCommandContext);
+            var agentCommandParser = new AgentCommandParser();
+            var agentCommandExecutor = new AgentCommandExecutor(commandRegistry);
 
 
 
-        var agentChat = new AgentChat(
-            localCommandContext,
-            commandRegistry,
-            agentCommandParser,
-            agentCommandExecutor,
-            deepSeekClient,
-            chatSettings);
+            var agentChat = new AgentChat(
+                localCommandContext,
+                commandRegistry,
+                agentCommandParser,
+                agentCommandExecutor,
+                deepSeekClient,
+                chatSettings);
 
-        var tab = AddTab(userProfile.Email);
-        tab.Tag = agentChat;
-        if (InvokeRequired)
-        {
-            Invoke(() => tab.Content.Controls.Add(agentChat));
+            var tab = AddTab(userProfile.Email);
+            tab.Tag = agentChat;
+            if (InvokeRequired)
+            {
+                Invoke(() => tab.Content.Controls.Add(agentChat));
+            }
+            else
+            {
+                tab.Content.Controls.Add(agentChat);
+            }
         }
-        else
+        catch (APIError)
         {
-            tab.Content.Controls.Add(agentChat);
+            throw new AuthenticationError("Invalid token");
         }
     }
 
