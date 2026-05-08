@@ -19,6 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="DeepSeekAPI" Version="1.2.4" />
+	  <PackageReference Include="DeepSeekAPI" Version="1.3.0" />
 	</ItemGroup>
 </Project>

@@ -64,7 +64,7 @@ public partial class AgentChat : UserControl
     {
         try
         {
-            _chatSession = await _deepSeekClient.CreateChatSession();
+            _chatSession = await _deepSeekClient.CreateChatSessionAsync();
             _lastMessageId = null;
         }
         catch { }
