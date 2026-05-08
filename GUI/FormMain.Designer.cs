@@ -34,7 +34,7 @@ partial class FormMain
         файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonClearHistory = new System.Windows.Forms.ToolStripMenuItem();
         настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        buttonChangeApiKey = new System.Windows.Forms.ToolStripMenuItem();
+        buttonAddAgent = new System.Windows.Forms.ToolStripMenuItem();
         чатToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonDeepSeekToggleThinking = new System.Windows.Forms.ToolStripMenuItem();
         buttonDeepSeekToggleSearch = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,28 +78,28 @@ partial class FormMain
         // 
         // настройкиToolStripMenuItem
         // 
-        настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonChangeApiKey, чатToolStripMenuItem });
+        настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonAddAgent, чатToolStripMenuItem });
         настройкиToolStripMenuItem.ForeColor = Color.Gainsboro;
         настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
         настройкиToolStripMenuItem.Size = new Size(156, 36);
         настройкиToolStripMenuItem.Text = "Настройки";
         // 
-        // buttonChangeApiKey
+        // buttonAddAgent
         // 
-        buttonChangeApiKey.BackColor = Color.FromArgb(30, 30, 30);
-        buttonChangeApiKey.ForeColor = Color.Gainsboro;
-        buttonChangeApiKey.Name = "buttonChangeApiKey";
-        buttonChangeApiKey.Size = new Size(356, 40);
-        buttonChangeApiKey.Text = "Изменить api ключ";
-        buttonChangeApiKey.Click += buttonChangeApiKey_Click;
+        buttonAddAgent.BackColor = Color.FromArgb(30, 30, 30);
+        buttonAddAgent.ForeColor = Color.Gainsboro;
+        buttonAddAgent.Name = "buttonAddAgent";
+        buttonAddAgent.Size = new Size(328, 40);
+        buttonAddAgent.Text = "Добавить агента";
+        buttonAddAgent.Click += buttonAddAgent_Click;
         // 
         // чатToolStripMenuItem
         // 
-        чатToolStripMenuItem.BackColor = Color.FromArgb(12, 12, 12);
+        чатToolStripMenuItem.BackColor = Color.FromArgb(30, 30, 30);
         чатToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonDeepSeekToggleThinking, buttonDeepSeekToggleSearch, buttonDeepSeekToggleSwichMode });
         чатToolStripMenuItem.ForeColor = Color.Gainsboro;
         чатToolStripMenuItem.Name = "чатToolStripMenuItem";
-        чатToolStripMenuItem.Size = new Size(356, 40);
+        чатToolStripMenuItem.Size = new Size(328, 40);
         чатToolStripMenuItem.Text = "Чат";
         // 
         // buttonDeepSeekToggleThinking
@@ -166,6 +166,7 @@ partial class FormMain
         agentManager.Name = "agentManager";
         agentManager.Size = new Size(1221, 525);
         agentManager.TabIndex = 10;
+        agentManager.DataContextChanged += agentManager_DataContextChanged;
         // 
         // FormMain
         // 
@@ -193,7 +194,6 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonClearHistory;
     private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem buttonChangeApiKey;
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonShowWSL;
     private System.Windows.Forms.ToolStripMenuItem buttonShowPowerShell;
@@ -202,4 +202,5 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleThinking;
     private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleSearch;
     private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleSwichMode;
+    private System.Windows.Forms.ToolStripMenuItem buttonAddAgent;
 }

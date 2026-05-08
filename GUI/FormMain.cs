@@ -1,8 +1,12 @@
-﻿using DeepSeekAPI.Exceptions;
+﻿using DeepSeekAgent.Models;
+using DeepSeekAPI;
+using DeepSeekAPI.Exceptions;
 using DeepSeekAPI.Models.Chat;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,7 +14,7 @@ namespace DeepSeekAgent.GUI;
 
 public partial class FormMain : Form
 {
-    public FormMain(string apiKey)
+    public FormMain()
     {
         InitializeComponent();
     }
@@ -19,8 +23,18 @@ public partial class FormMain : Form
     {
         try
         {
-            var token = File.ReadAllText("apikey.txt");
-            await agentManager.AddDeepSeekClient(token);
+            var context = new AppDatabaseContext();
+
+            var tasks = new List<Task>();
+
+            foreach (var token in context.DeepSeekTokens)
+            {
+                var task = agentManager.AddDeepSeekClient(token.Value);
+                tasks.Add(task);
+            }
+
+            await Task.WhenAll(tasks);
+
             UpdateChatSettingsInfo();
         }
         catch (AuthenticationError)
@@ -45,27 +59,45 @@ public partial class FormMain : Form
 
     #region Настройки
 
-    private async void buttonChangeApiKey_Click(object sender, EventArgs e)
+    private async void buttonAddAgent_Click(object sender, EventArgs e)
     {
-        await ChangeApiKeyAsync();
+        await AddAgentAsync();
     }
 
-    private async Task ChangeApiKeyAsync()
+    private async Task AddAgentAsync()
     {
-        var apiKey = Interaction.InputBox(
+        var token = Interaction.InputBox(
             "Введите новый api key.\nЭто очистит всю предыдущую историю запросов!",
             "Новый api key",
             ""
         );
 
-        if (string.IsNullOrWhiteSpace(apiKey))
+        if (string.IsNullOrWhiteSpace(token))
         {
             return;
         }
 
         try
         {
+            var context = new AppDatabaseContext();
 
+            if (context.DeepSeekTokens.Any(t => t.Value == token))
+            {
+                MessageBox.Show(
+                    "Агент с такоим токеном уже существует",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            var deepSeekClient = new DeepSeekClient(token);
+            await deepSeekClient.GetUserProfileAsync();
+
+            context.DeepSeekTokens.Add(new DeepSeekToken() { Value = token });
+            await context.SaveChangesAsync();
+
+            await agentManager.AddDeepSeekClient(token);
         }
         catch (Exception ex)
         {
@@ -103,6 +135,11 @@ public partial class FormMain : Form
         }
 
         agentManager.DeepSeekSwitchMode();
+        UpdateChatSettingsInfo();
+    }
+
+    private void agentManager_DataContextChanged(object sender, EventArgs e)
+    {
         UpdateChatSettingsInfo();
     }
 
