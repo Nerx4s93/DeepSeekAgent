@@ -20,7 +20,7 @@ public partial class FormMain : Form
         try
         {
             var token = File.ReadAllText("apikey.txt");
-            await agentManager.AddDeepSeekClient(token + "1");
+            await agentManager.AddDeepSeekClient(token);
             UpdateChatSettingsInfo();
         }
         catch (AuthenticationError)
