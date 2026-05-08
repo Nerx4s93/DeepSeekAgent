@@ -53,6 +53,7 @@ public partial class AgentChat : UserControl
     }
 
     public LocalCommandContext LocalCommandContext => _localCommandContext;
+    public ChatSettings ChatSettings => _chatSettings;
 
     public async Task ClearHistory()
     {

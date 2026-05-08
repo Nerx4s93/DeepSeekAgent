@@ -71,6 +71,7 @@ public class AgentManager : SideTabControl
         return null;
     }
 
+
     public async Task ClearHistorySelectedTab()
     {
         if (SelectedTab != null &&
@@ -78,6 +79,50 @@ public class AgentManager : SideTabControl
             SelectedTab.Tag is AgentChat agentChat)
         {
             await agentChat.ClearHistory();
+        }
+    }
+
+    public ChatSettings? GetChatSettigs()
+    {
+        if (SelectedTab != null &&
+            SelectedTab.Tag != null &&
+            SelectedTab.Tag is AgentChat agentChat)
+        {
+            return agentChat.ChatSettings;
+        }
+
+        return null;
+    }
+
+    public void DeepSeekToggleThinking()
+    {
+        if (SelectedTab != null &&
+            SelectedTab.Tag != null &&
+            SelectedTab.Tag is AgentChat agentChat)
+        {
+            agentChat.ChatSettings.Thinking = !agentChat.ChatSettings.Thinking;
+        }
+    }
+
+    public void DeepSeekToggleSearch()
+    {
+        if (SelectedTab != null &&
+            SelectedTab.Tag != null &&
+            SelectedTab.Tag is AgentChat agentChat)
+        {
+            agentChat.ChatSettings.Search = !agentChat.ChatSettings.Search;
+        }
+    }
+
+    public void DeepSeekSwitchMode()
+    {
+        if (SelectedTab != null &&
+            SelectedTab.Tag != null &&
+            SelectedTab.Tag is AgentChat agentChat)
+        {
+            agentChat.ChatSettings.ModelType =
+                agentChat.ChatSettings.ModelType == ModelType.Default ?
+                ModelType.Expert : ModelType.Default;
         }
     }
 }

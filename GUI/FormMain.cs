@@ -1,4 +1,5 @@
 ﻿using DeepSeekAPI.Exceptions;
+using DeepSeekAPI.Models.Chat;
 using Microsoft.VisualBasic;
 using System;
 using System.IO;
@@ -20,6 +21,7 @@ public partial class FormMain : Form
         {
             var token = File.ReadAllText("apikey.txt");
             await agentManager.AddDeepSeekClient(token);
+            UpdateChatSettingsInfo();
         }
         catch (AuthenticationError)
         {
@@ -69,6 +71,56 @@ public partial class FormMain : Form
         {
             MessageBox.Show(ex.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+    }
+
+    private void buttonDeepSeekToggleThinking_Click(object sender, EventArgs e)
+    {
+        if (agentManager.SelectedTab == null)
+        {
+            return;
+        }
+
+        agentManager.DeepSeekToggleThinking();
+        UpdateChatSettingsInfo();
+    }
+
+    private void buttonDeepSeekToggleSearch_Click(object sender, EventArgs e)
+    {
+        if (agentManager.SelectedTab == null)
+        {
+            return;
+        }
+
+        agentManager.DeepSeekToggleSearch();
+        UpdateChatSettingsInfo();
+    }
+
+    private void buttonDeepSeekToggleSwichMode_Click(object sender, EventArgs e)
+    {
+        if (agentManager.SelectedTab == null)
+        {
+            return;
+        }
+
+        agentManager.DeepSeekSwitchMode();
+        UpdateChatSettingsInfo();
+    }
+
+    private void UpdateChatSettingsInfo()
+    {
+        var chatSettings = agentManager.GetChatSettigs();
+
+        if (chatSettings == null)
+        {
+            return;
+        }
+
+        buttonDeepSeekToggleThinking.Text = "Thinking: " +
+            (chatSettings.Thinking ? "Enable" : "Disable");
+        buttonDeepSeekToggleSearch.Text = "Search: " +
+            (chatSettings.Search ? "Enable" : "Disable");
+        buttonDeepSeekToggleSwichMode.Text = "Model: " +
+            (chatSettings.ModelType == ModelType.Default ? "Default" : "Expert");
     }
 
     #endregion

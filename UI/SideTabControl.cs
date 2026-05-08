@@ -30,8 +30,12 @@ public partial class SideTabControl : UserControl
                 return;
             }
 
+            var oldTab = _selectedTab;
             _selectedTab = value;
+
             UpdateSelection();
+
+            OnSelectedTabChanged(oldTab, value);
         }
     }
 
@@ -94,4 +98,11 @@ public partial class SideTabControl : UserControl
             SelectedTab = tab;
         }
     }
+
+    protected virtual void OnSelectedTabChanged(TabItem? oldTab, TabItem? newTab)
+    {
+        SelectedTabChanged?.Invoke(this, new TabChangedEventArgs(oldTab, newTab));
+    }
+
+    public event EventHandler<TabChangedEventArgs>? SelectedTabChanged;
 }

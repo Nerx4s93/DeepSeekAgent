@@ -35,6 +35,10 @@ partial class FormMain
         buttonClearHistory = new System.Windows.Forms.ToolStripMenuItem();
         настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonChangeApiKey = new System.Windows.Forms.ToolStripMenuItem();
+        чатToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        buttonDeepSeekToggleThinking = new System.Windows.Forms.ToolStripMenuItem();
+        buttonDeepSeekToggleSearch = new System.Windows.Forms.ToolStripMenuItem();
+        buttonDeepSeekToggleSwichMode = new System.Windows.Forms.ToolStripMenuItem();
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowWSL = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowPowerShell = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +49,7 @@ partial class FormMain
         // menuStrip
         // 
         menuStrip.BackColor = Color.FromArgb(30, 30, 30);
-        menuStrip.Font = new Font("Segoe UI", 12F);
+        menuStrip.Font = new Font("Cascadia Mono", 12F);
         menuStrip.ImageScalingSize = new Size(24, 24);
         menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { файлToolStripMenuItem, настройкиToolStripMenuItem, инструментыToolStripMenuItem });
         menuStrip.Location = new Point(0, 0);
@@ -68,16 +72,16 @@ partial class FormMain
         buttonClearHistory.BackColor = Color.FromArgb(30, 30, 30);
         buttonClearHistory.ForeColor = Color.Gainsboro;
         buttonClearHistory.Name = "buttonClearHistory";
-        buttonClearHistory.Size = new Size(325, 40);
+        buttonClearHistory.Size = new Size(342, 40);
         buttonClearHistory.Text = "Очистить историю";
         buttonClearHistory.Click += buttonClearHistory_Click;
         // 
         // настройкиToolStripMenuItem
         // 
-        настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonChangeApiKey });
+        настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonChangeApiKey, чатToolStripMenuItem });
         настройкиToolStripMenuItem.ForeColor = Color.Gainsboro;
         настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-        настройкиToolStripMenuItem.Size = new Size(148, 36);
+        настройкиToolStripMenuItem.Size = new Size(156, 36);
         настройкиToolStripMenuItem.Text = "Настройки";
         // 
         // buttonChangeApiKey
@@ -85,16 +89,52 @@ partial class FormMain
         buttonChangeApiKey.BackColor = Color.FromArgb(30, 30, 30);
         buttonChangeApiKey.ForeColor = Color.Gainsboro;
         buttonChangeApiKey.Name = "buttonChangeApiKey";
-        buttonChangeApiKey.Size = new Size(332, 40);
+        buttonChangeApiKey.Size = new Size(356, 40);
         buttonChangeApiKey.Text = "Изменить api ключ";
         buttonChangeApiKey.Click += buttonChangeApiKey_Click;
+        // 
+        // чатToolStripMenuItem
+        // 
+        чатToolStripMenuItem.BackColor = Color.FromArgb(12, 12, 12);
+        чатToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonDeepSeekToggleThinking, buttonDeepSeekToggleSearch, buttonDeepSeekToggleSwichMode });
+        чатToolStripMenuItem.ForeColor = Color.Gainsboro;
+        чатToolStripMenuItem.Name = "чатToolStripMenuItem";
+        чатToolStripMenuItem.Size = new Size(356, 40);
+        чатToolStripMenuItem.Text = "Чат";
+        // 
+        // buttonDeepSeekToggleThinking
+        // 
+        buttonDeepSeekToggleThinking.BackColor = Color.FromArgb(12, 12, 12);
+        buttonDeepSeekToggleThinking.ForeColor = Color.Gainsboro;
+        buttonDeepSeekToggleThinking.Name = "buttonDeepSeekToggleThinking";
+        buttonDeepSeekToggleThinking.Size = new Size(356, 40);
+        buttonDeepSeekToggleThinking.Text = "Thinking: Disable";
+        buttonDeepSeekToggleThinking.Click += buttonDeepSeekToggleThinking_Click;
+        // 
+        // buttonDeepSeekToggleSearch
+        // 
+        buttonDeepSeekToggleSearch.BackColor = Color.FromArgb(12, 12, 12);
+        buttonDeepSeekToggleSearch.ForeColor = Color.Gainsboro;
+        buttonDeepSeekToggleSearch.Name = "buttonDeepSeekToggleSearch";
+        buttonDeepSeekToggleSearch.Size = new Size(356, 40);
+        buttonDeepSeekToggleSearch.Text = "Search: Disable";
+        buttonDeepSeekToggleSearch.Click += buttonDeepSeekToggleSearch_Click;
+        // 
+        // buttonDeepSeekToggleSwichMode
+        // 
+        buttonDeepSeekToggleSwichMode.BackColor = Color.FromArgb(12, 12, 12);
+        buttonDeepSeekToggleSwichMode.ForeColor = Color.Gainsboro;
+        buttonDeepSeekToggleSwichMode.Name = "buttonDeepSeekToggleSwichMode";
+        buttonDeepSeekToggleSwichMode.Size = new Size(356, 40);
+        buttonDeepSeekToggleSwichMode.Text = "Model: Expert";
+        buttonDeepSeekToggleSwichMode.Click += buttonDeepSeekToggleSwichMode_Click;
         // 
         // инструментыToolStripMenuItem
         // 
         инструментыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonShowWSL, buttonShowPowerShell });
         инструментыToolStripMenuItem.ForeColor = Color.Gainsboro;
         инструментыToolStripMenuItem.Name = "инструментыToolStripMenuItem";
-        инструментыToolStripMenuItem.Size = new Size(180, 36);
+        инструментыToolStripMenuItem.Size = new Size(184, 36);
         инструментыToolStripMenuItem.Text = "Инструменты";
         // 
         // buttonShowWSL
@@ -102,7 +142,7 @@ partial class FormMain
         buttonShowWSL.BackColor = Color.FromArgb(30, 30, 30);
         buttonShowWSL.ForeColor = Color.Gainsboro;
         buttonShowWSL.Name = "buttonShowWSL";
-        buttonShowWSL.Size = new Size(234, 40);
+        buttonShowWSL.Size = new Size(258, 40);
         buttonShowWSL.Text = "WSL";
         buttonShowWSL.Click += buttonShowWSL_Click;
         // 
@@ -111,7 +151,7 @@ partial class FormMain
         buttonShowPowerShell.BackColor = Color.FromArgb(30, 30, 30);
         buttonShowPowerShell.ForeColor = Color.Gainsboro;
         buttonShowPowerShell.Name = "buttonShowPowerShell";
-        buttonShowPowerShell.Size = new Size(234, 40);
+        buttonShowPowerShell.Size = new Size(258, 40);
         buttonShowPowerShell.Text = "PowerShell";
         buttonShowPowerShell.Click += buttonShowPowerShell_Click;
         // 
@@ -158,4 +198,8 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem buttonShowWSL;
     private System.Windows.Forms.ToolStripMenuItem buttonShowPowerShell;
     private UI.AgentManager agentManager;
+    private System.Windows.Forms.ToolStripMenuItem чатToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleThinking;
+    private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleSearch;
+    private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleSwichMode;
 }
