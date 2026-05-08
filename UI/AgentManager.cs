@@ -62,7 +62,7 @@ public class AgentManager : SideTabControl
                 tab.Content.Controls.Add(agentChat);
             }
         }
-        catch (APIError)
+        catch
         {
             throw new AuthenticationError("Invalid token");
         }
