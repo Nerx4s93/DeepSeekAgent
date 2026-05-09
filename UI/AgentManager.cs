@@ -123,15 +123,13 @@ public class AgentManager : SideTabControl
         }
     }
 
-    public void DeepSeekSwitchMode()
+    public void DeepSeekSwitchMode(ModelType modelType)
     {
         if (SelectedTab != null &&
             SelectedTab.Tag != null &&
             SelectedTab.Tag is AgentChat agentChat)
         {
-            agentChat.ChatSettings.ModelType =
-                agentChat.ChatSettings.ModelType == ModelType.Default ?
-                ModelType.Expert : ModelType.Default;
+            agentChat.ChatSettings.ModelType = modelType;
         }
     }
 }

@@ -128,14 +128,36 @@ public partial class FormMain : Form
         UpdateChatSettingsInfo();
     }
 
-    private void buttonDeepSeekToggleSwichMode_Click(object sender, EventArgs e)
+    private void buttonModelDefault_Click(object sender, EventArgs e)
     {
         if (agentManager.SelectedTab == null)
         {
             return;
         }
 
-        agentManager.DeepSeekSwitchMode();
+        agentManager.DeepSeekSwitchMode(ModelType.Default);
+        UpdateChatSettingsInfo();
+    }
+
+    private void buttonModelExpert_Click(object sender, EventArgs e)
+    {
+        if (agentManager.SelectedTab == null)
+        {
+            return;
+        }
+
+        agentManager.DeepSeekSwitchMode(ModelType.Expert);
+        UpdateChatSettingsInfo();
+    }
+
+    private void buttonModelVision_Click(object sender, EventArgs e)
+    {
+        if (agentManager.SelectedTab == null)
+        {
+            return;
+        }
+
+        agentManager.DeepSeekSwitchMode(ModelType.Vision);
         UpdateChatSettingsInfo();
     }
 
@@ -157,8 +179,7 @@ public partial class FormMain : Form
             (chatSettings.Thinking ? "Enable" : "Disable");
         buttonDeepSeekToggleSearch.Text = "Search: " +
             (chatSettings.Search ? "Enable" : "Disable");
-        buttonDeepSeekToggleSwichMode.Text = "Model: " +
-            (chatSettings.ModelType == ModelType.Default ? "Default" : "Expert");
+        buttonDeepSeekToggleSwichMode.Text = "Model: " + chatSettings.ModelType.ToString();
     }
 
     #endregion

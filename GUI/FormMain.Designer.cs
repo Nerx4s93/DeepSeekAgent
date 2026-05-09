@@ -39,6 +39,9 @@ partial class FormMain
         buttonDeepSeekToggleThinking = new System.Windows.Forms.ToolStripMenuItem();
         buttonDeepSeekToggleSearch = new System.Windows.Forms.ToolStripMenuItem();
         buttonDeepSeekToggleSwichMode = new System.Windows.Forms.ToolStripMenuItem();
+        buttonModelDefault = new System.Windows.Forms.ToolStripMenuItem();
+        buttonModelExpert = new System.Windows.Forms.ToolStripMenuItem();
+        buttonModelVision = new System.Windows.Forms.ToolStripMenuItem();
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowWSL = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowPowerShell = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +81,7 @@ partial class FormMain
         // 
         // настройкиToolStripMenuItem
         // 
-        настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonAddAgent, чатToolStripMenuItem });
+        настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { чатToolStripMenuItem, buttonAddAgent });
         настройкиToolStripMenuItem.ForeColor = Color.Gainsboro;
         настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
         настройкиToolStripMenuItem.Size = new Size(156, 36);
@@ -104,7 +107,7 @@ partial class FormMain
         // 
         // buttonDeepSeekToggleThinking
         // 
-        buttonDeepSeekToggleThinking.BackColor = Color.FromArgb(12, 12, 12);
+        buttonDeepSeekToggleThinking.BackColor = Color.FromArgb(30, 30, 30);
         buttonDeepSeekToggleThinking.ForeColor = Color.Gainsboro;
         buttonDeepSeekToggleThinking.Name = "buttonDeepSeekToggleThinking";
         buttonDeepSeekToggleThinking.Size = new Size(356, 40);
@@ -113,7 +116,7 @@ partial class FormMain
         // 
         // buttonDeepSeekToggleSearch
         // 
-        buttonDeepSeekToggleSearch.BackColor = Color.FromArgb(12, 12, 12);
+        buttonDeepSeekToggleSearch.BackColor = Color.FromArgb(30, 30, 30);
         buttonDeepSeekToggleSearch.ForeColor = Color.Gainsboro;
         buttonDeepSeekToggleSearch.Name = "buttonDeepSeekToggleSearch";
         buttonDeepSeekToggleSearch.Size = new Size(356, 40);
@@ -122,12 +125,39 @@ partial class FormMain
         // 
         // buttonDeepSeekToggleSwichMode
         // 
-        buttonDeepSeekToggleSwichMode.BackColor = Color.FromArgb(12, 12, 12);
+        buttonDeepSeekToggleSwichMode.BackColor = Color.FromArgb(30, 30, 30);
+        buttonDeepSeekToggleSwichMode.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonModelDefault, buttonModelExpert, buttonModelVision });
         buttonDeepSeekToggleSwichMode.ForeColor = Color.Gainsboro;
         buttonDeepSeekToggleSwichMode.Name = "buttonDeepSeekToggleSwichMode";
         buttonDeepSeekToggleSwichMode.Size = new Size(356, 40);
         buttonDeepSeekToggleSwichMode.Text = "Model: Expert";
-        buttonDeepSeekToggleSwichMode.Click += buttonDeepSeekToggleSwichMode_Click;
+        // 
+        // buttonModelDefault
+        // 
+        buttonModelDefault.BackColor = Color.FromArgb(30, 30, 30);
+        buttonModelDefault.ForeColor = Color.Gainsboro;
+        buttonModelDefault.Name = "buttonModelDefault";
+        buttonModelDefault.Size = new Size(270, 40);
+        buttonModelDefault.Text = "Default";
+        buttonModelDefault.Click += buttonModelDefault_Click;
+        // 
+        // buttonModelExpert
+        // 
+        buttonModelExpert.BackColor = Color.FromArgb(30, 30, 30);
+        buttonModelExpert.ForeColor = Color.Gainsboro;
+        buttonModelExpert.Name = "buttonModelExpert";
+        buttonModelExpert.Size = new Size(270, 40);
+        buttonModelExpert.Text = "Expert";
+        buttonModelExpert.Click += buttonModelExpert_Click;
+        // 
+        // buttonModelVision
+        // 
+        buttonModelVision.BackColor = Color.FromArgb(30, 30, 30);
+        buttonModelVision.ForeColor = Color.Gainsboro;
+        buttonModelVision.Name = "buttonModelVision";
+        buttonModelVision.Size = new Size(270, 40);
+        buttonModelVision.Text = "Vision";
+        buttonModelVision.Click += buttonModelVision_Click;
         // 
         // инструментыToolStripMenuItem
         // 
@@ -203,4 +233,7 @@ partial class FormMain
     private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleSearch;
     private System.Windows.Forms.ToolStripMenuItem buttonDeepSeekToggleSwichMode;
     private System.Windows.Forms.ToolStripMenuItem buttonAddAgent;
+    private System.Windows.Forms.ToolStripMenuItem buttonModelDefault;
+    private System.Windows.Forms.ToolStripMenuItem buttonModelExpert;
+    private System.Windows.Forms.ToolStripMenuItem buttonModelVision;
 }
