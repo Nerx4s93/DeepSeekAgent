@@ -166,7 +166,7 @@ partial class FormMain
         agentManager.Name = "agentManager";
         agentManager.Size = new Size(1221, 525);
         agentManager.TabIndex = 10;
-        agentManager.DataContextChanged += agentManager_DataContextChanged;
+        agentManager.SelectedTabChanged += agentManager_SelectedTabChanged;
         // 
         // FormMain
         // 

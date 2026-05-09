@@ -1,4 +1,5 @@
 ﻿using DeepSeekAgent.Models;
+using DeepSeekAgent.UI;
 using DeepSeekAPI;
 using DeepSeekAPI.Exceptions;
 using DeepSeekAPI.Models.Chat;
@@ -138,7 +139,7 @@ public partial class FormMain : Form
         UpdateChatSettingsInfo();
     }
 
-    private void agentManager_DataContextChanged(object sender, EventArgs e)
+    private void agentManager_SelectedTabChanged(object sender, TabChangedEventArgs e)
     {
         UpdateChatSettingsInfo();
     }
