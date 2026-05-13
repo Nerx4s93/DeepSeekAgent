@@ -66,6 +66,11 @@ public partial class AgentChat : UserControl
         {
             _chatSession = await _deepSeekClient.CreateChatSessionAsync();
             _lastMessageId = null;
+
+            var basePromt = ResourcesDataLoader.GetDataText("BOOTSTRAP.md");
+            var promt = basePromt + "\n\n" + "Процесс инициализации";
+
+            await StartHandle(promt);
         }
         catch { }
     }
@@ -76,11 +81,8 @@ public partial class AgentChat : UserControl
         {
             var task = richTextBoxPromt.Text;
             richTextBoxPromt.Clear();
-            var basePromt = ResourcesDataLoader.GetDataText("BasePromt.txt");
-
-            var promt =
-                (_lastMessageId == null ? basePromt + "\n\n" : "") +
-                "Задача пользователя:\n" + task;
+            
+            var promt = task;
 
             richTextBoxPromt.ReadOnly = true;
 
@@ -114,7 +116,7 @@ public partial class AgentChat : UserControl
                 _lastMessageId = response.messageId;
                 var commands = _agentCommandParser.Parse(response.text);
 
-                if (response.text.Contains("FINAL_RESULT"))
+                if (response.text.Contains("COMMAND END"))
                 {
                     break;
                 }

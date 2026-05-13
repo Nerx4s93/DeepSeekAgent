@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Resources\Commands\Info\" />
+	  <Folder Include="Resources\Commands\Response\" />
 	</ItemGroup>
 
 	<ItemGroup>

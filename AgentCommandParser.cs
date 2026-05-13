@@ -6,7 +6,7 @@ namespace DeepSeekAgent;
 public class AgentCommandParser
 {
     private static readonly Regex BlockRegex = new(
-        @"COMMAND\s+(?<tool>\w+)\s*\r?\n(?<payload>.*?)\r?\nEND\s+\k<tool>",
+        @"COMMAND\s+(?<tool>\w+)\s*\r?\n(?<payload>.*?)(?:\r?\n)?END\s+\k<tool>",
         RegexOptions.Compiled | RegexOptions.Singleline);
 
     private static readonly Regex InlineRegex = new(

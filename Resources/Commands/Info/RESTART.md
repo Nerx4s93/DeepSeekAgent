@@ -1,0 +1,7 @@
+# RESTART
+
+Перезапуск утилит при необходимости
+
+Применение:
+COMMAND RESTART WSL
+COMMAND RESTART POWERSHELL
