@@ -109,7 +109,7 @@ public partial class AgentChat : UserControl
     {
         try
         {
-            var response = await SendMessage(_chatSession, promt, _chatSettings, _lastMessageId);
+            var response = await SendWithRetryAsync(_chatSession, promt, _chatSettings, _lastMessageId);
 
             while (true)
             {
@@ -138,32 +138,11 @@ public partial class AgentChat : UserControl
                     richTextBoxLogs.LogLine("[Error]: ИИ выдал ответ без команд и не завершил задачу.", Color.Red);
                 }
 
-                while (true)
-                {
-                    try
-                    {
-                        response = await SendMessage(
-                            _chatSession,
-                            resultsForAi.response,
-                            _chatSettings,
-                            _lastMessageId);
-                        break;
-                    }
-                    catch (RateLimitError)
-                    {
-                        richTextBoxLogs.LogLine("Rate limit exeption.", API_ERROR_COLOR);
-                        richTextBoxLogs.Log("Wait to send message again", API_ERROR_COLOR);
-
-                        for (var i = 0; i < 3; i++)
-                        {
-                            await Task.Delay(2500);
-                            richTextBoxLogs.Log(".", API_ERROR_COLOR);
-                        }
-
-                        richTextBoxLogs.LogLine();
-                        richTextBoxLogs.LogLine();
-                    }
-                }
+                response = await SendWithRetryAsync(
+                    _chatSession,
+                    resultsForAi.response,
+                    _chatSettings,
+                    _lastMessageId);
             }
 
         }
@@ -171,6 +150,44 @@ public partial class AgentChat : UserControl
         {
             richTextBoxLogs.LogLine(ex.ToString(), Color.Red);
         }
+    }
+
+    private async Task<(long? messageId, string text)> SendWithRetryAsync(
+        ChatSession chatSession,
+        string prompt,
+        ChatSettings chatSettings,
+        long? parentMessage = null)
+    {
+        (long? messageId, string text) response = (null, string.Empty);
+
+        while (true)
+        {
+            try
+            {
+                response = await SendMessage(
+                    chatSession,
+                    prompt,
+                    chatSettings,
+                    parentMessage);
+                break;
+            }
+            catch (RateLimitError)
+            {
+                richTextBoxLogs.LogLine("Rate limit exeption.", API_ERROR_COLOR);
+                richTextBoxLogs.Log("Wait to send message again", API_ERROR_COLOR);
+
+                for (var i = 0; i < 3; i++)
+                {
+                    await Task.Delay(2500);
+                    richTextBoxLogs.Log(".", API_ERROR_COLOR);
+                }
+
+                richTextBoxLogs.LogLine();
+                richTextBoxLogs.LogLine();
+            }
+        }
+
+        return response;
     }
 
     private async Task<(long? messageId, string text)> SendMessage(
