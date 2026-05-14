@@ -13,7 +13,7 @@ public class WSLCommand : LocalCommand
 
     public override string Group => "TOOLS";
     public override string Name => "WSL";
-    public override string ShortDescription => "выполнение Linux-команд через WSL";
+    public override string ShortDescription => "выполнение Linux-команд через WSL (обязательно прочитать `INFO`)";
 
     public override async Task<CommandResult> ExecuteAsync(string payload)
     {

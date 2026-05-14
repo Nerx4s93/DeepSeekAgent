@@ -48,25 +48,42 @@ public class PythonCommand : LocalCommand
                     streamWriter.Write(code);
                 }
 
-                var output = process.StandardOutput.ReadToEnd();
-                var error = process.StandardError.ReadToEnd();
-                process.WaitForExit();
+                var exited = process.WaitForExit(30000);
 
-                var executeResult = !string.IsNullOrEmpty(error) ? $"Error:\n{error}" : output;
+                var output = "";
+                var error = "";
+
+                if (!exited)
+                {
+                    try
+                    {
+                        process.Kill(true);
+                    }
+                    catch { }
+
+                    error = "Execution timed out (30 seconds)";
+                }
+                else
+                {
+                    output = process.StandardOutput.ReadToEnd();
+                    error = process.StandardError.ReadToEnd();
+                }
+
+                var executeResult = !string.IsNullOrEmpty(error)
+                    ? $"Error:\n{error}"
+                    : output;
 
                 var resultText = $"""
-                RESPONSE PYTHON
-                {executeResult}
-                END RESPONSE
-                """;
+                    RESPONSE PYTHON
+                    {executeResult}
+                    END RESPONSE
+                    """;
 
-                var result = new ContinueResult(resultText);
-                return Task.FromResult((CommandResult)result);
+                return (CommandResult)new ContinueResult(resultText);
             }
             catch (Exception ex)
             {
-                var result = new ContinueResult(ex.Message);
-                return Task.FromResult((CommandResult)result);
+                return (CommandResult)new ContinueResult(ex.Message);
             }
         });
     }
