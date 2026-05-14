@@ -120,15 +120,15 @@ public partial class AgentChat : UserControl
                 {
                     var resultsForAi = await _agentCommandExecutor.ExecuteCommandsAsync(commands);
 
-                    richTextBoxLogs.LogLine("");
-                    richTextBoxLogs.LogLine("");
-                    richTextBoxLogs.LogLine("[COMMANDS]:", COMMANDS_COLOR);
-                    richTextBoxLogs.LogLine(resultsForAi.response);
-
                     if (resultsForAi.end)
                     {
                         break;
                     }
+
+                    richTextBoxLogs.LogLine("");
+                    richTextBoxLogs.LogLine("");
+                    richTextBoxLogs.LogLine("[COMMANDS]:", COMMANDS_COLOR);
+                    richTextBoxLogs.LogLine(resultsForAi.response);
 
                     while (true)
                     {
