@@ -81,7 +81,7 @@ public partial class AgentChat : UserControl
         {
             var task = richTextBoxPromt.Text;
             richTextBoxPromt.Clear();
-            
+
             var promt = task;
 
             richTextBoxPromt.ReadOnly = true;
@@ -116,51 +116,53 @@ public partial class AgentChat : UserControl
                 _lastMessageId = response.messageId;
                 var commands = _agentCommandParser.Parse(response.text);
 
-                if (commands.Count > 0)
-                {
-                    var resultsForAi = await _agentCommandExecutor.ExecuteCommandsAsync(commands);
+                var resultsForAi = await _agentCommandExecutor.ExecuteCommandsAsync(commands);
 
-                    if (resultsForAi.end)
+                if (resultsForAi.end)
+                {
+                    break;
+                }
+
+                richTextBoxLogs.LogLine("");
+                richTextBoxLogs.LogLine("");
+                richTextBoxLogs.LogLine("[COMMANDS]:", COMMANDS_COLOR);
+                richTextBoxLogs.LogLine(resultsForAi.response);
+
+                if (commands.Count == 0)
+                {
+                    resultsForAi.response = """
+                    Твой ответ не содержит команд или завершениея цикла. 
+                    (`COMMAND MESSAGE` - отправить сообщение человеку,
+                    `COMMAND FINALLY` - завершить цикл агента)
+                    """;
+                    richTextBoxLogs.LogLine("\n\n[Error]: ИИ выдал ответ без команд и не завершил задачу.", Color.Red);
+                }
+
+                while (true)
+                {
+                    try
                     {
+                        response = await SendMessage(
+                            _chatSession,
+                            resultsForAi.response,
+                            _chatSettings,
+                            _lastMessageId);
                         break;
                     }
-
-                    richTextBoxLogs.LogLine("");
-                    richTextBoxLogs.LogLine("");
-                    richTextBoxLogs.LogLine("[COMMANDS]:", COMMANDS_COLOR);
-                    richTextBoxLogs.LogLine(resultsForAi.response);
-
-                    while (true)
+                    catch (RateLimitError)
                     {
-                        try
-                        {
-                            response = await SendMessage(
-                                _chatSession,
-                                resultsForAi.response,
-                                _chatSettings,
-                                _lastMessageId);
-                            break;
-                        }
-                        catch (RateLimitError)
-                        {
-                            richTextBoxLogs.LogLine("Rate limit exeption.", API_ERROR_COLOR);
-                            richTextBoxLogs.Log("Wait to send message again", API_ERROR_COLOR);
+                        richTextBoxLogs.LogLine("Rate limit exeption.", API_ERROR_COLOR);
+                        richTextBoxLogs.Log("Wait to send message again", API_ERROR_COLOR);
 
-                            for (var i = 0; i < 3; i++)
-                            {
-                                await Task.Delay(2500);
-                                richTextBoxLogs.Log(".", API_ERROR_COLOR);
-                            }
-
-                            richTextBoxLogs.LogLine();
-                            richTextBoxLogs.LogLine();
+                        for (var i = 0; i < 3; i++)
+                        {
+                            await Task.Delay(2500);
+                            richTextBoxLogs.Log(".", API_ERROR_COLOR);
                         }
+
+                        richTextBoxLogs.LogLine();
+                        richTextBoxLogs.LogLine();
                     }
-                }
-                else
-                {
-                    richTextBoxLogs.LogLine("\n\n[Error]: ИИ выдал ответ без команд и не завершил задачу.", Color.Red);
-                    break;
                 }
             }
 
