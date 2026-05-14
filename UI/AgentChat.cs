@@ -135,7 +135,7 @@ public partial class AgentChat : UserControl
                     (`COMMAND MESSAGE` - отправить сообщение человеку,
                     `COMMAND FINALLY` - завершить цикл агента)
                     """;
-                    richTextBoxLogs.LogLine("\n\n[Error]: ИИ выдал ответ без команд и не завершил задачу.", Color.Red);
+                    richTextBoxLogs.LogLine("[Error]: ИИ выдал ответ без команд и не завершил задачу.", Color.Red);
                 }
 
                 while (true)
