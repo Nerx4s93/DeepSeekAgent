@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands.Implementations.System;
 
@@ -10,7 +12,7 @@ public class RestartCommand : LocalCommand
     public override string Name => "RESTART";
     public override string ShortDescription => "перезапуск утилит при необходимости";
 
-    public override Task<string> ExecuteAsync(string payload)
+    public override Task<CommandResult> ExecuteAsync(string payload)
     {
         switch (payload)
         {
@@ -18,17 +20,17 @@ public class RestartCommand : LocalCommand
                 {
                     Context.WSL.Dispose();
                     Context.WSL.Start("wsl.exe", "");
-                    return Task.FromResult("WSL перезапущен");
+                    return Task.FromResult((CommandResult)new ContinueResult("WSL перезапущен"));
                 }
             case "POWERSHELL":
                 {
                     Context.WSL.Dispose();
                     Context.WSL.Start("powershell.exe", "");
-                    return Task.FromResult("POWERSHELL перезапущен");
+                    return Task.FromResult((CommandResult)new ContinueResult("POWERSHELL перезапущен"));
                 }
             default:
                 {
-                    return Task.FromResult($"{payload} не найден");
+                    return Task.FromResult((CommandResult)new ContinueResult($"{payload} не найден"));
                 }
         }
     }

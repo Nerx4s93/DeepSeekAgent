@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +17,7 @@ public class PythonCommand : LocalCommand
     public override string Name => "PYTHON";
     public override string ShortDescription => "выполнение Python-кода";
 
-    public override async Task<string> ExecuteAsync(string payload)
+    public override async Task<CommandResult> ExecuteAsync(string payload)
     {
         return await Task.Run(() =>
         {
@@ -53,17 +54,19 @@ public class PythonCommand : LocalCommand
 
                 var executeResult = !string.IsNullOrEmpty(error) ? $"Error:\n{error}" : output;
 
-                var result = $"""
+                var resultText = $"""
                 RESPONSE PYTHON
                 {executeResult}
                 END RESPONSE
                 """;
 
-                return result;
+                var result = new ContinueResult(resultText);
+                return Task.FromResult((CommandResult)result);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                var result = new ContinueResult(ex.Message);
+                return Task.FromResult((CommandResult)result);
             }
         });
     }

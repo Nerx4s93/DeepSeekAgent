@@ -116,11 +116,6 @@ public partial class AgentChat : UserControl
                 _lastMessageId = response.messageId;
                 var commands = _agentCommandParser.Parse(response.text);
 
-                if (response.text.Contains("COMMAND END"))
-                {
-                    break;
-                }
-
                 if (commands.Count > 0)
                 {
                     var resultsForAi = await _agentCommandExecutor.ExecuteCommandsAsync(commands);
@@ -128,13 +123,22 @@ public partial class AgentChat : UserControl
                     richTextBoxLogs.LogLine("");
                     richTextBoxLogs.LogLine("");
                     richTextBoxLogs.LogLine("[COMMANDS]:", COMMANDS_COLOR);
-                    richTextBoxLogs.LogLine(resultsForAi);
+                    richTextBoxLogs.LogLine(resultsForAi.response);
+
+                    if (resultsForAi.end)
+                    {
+                        break;
+                    }
 
                     while (true)
                     {
                         try
                         {
-                            response = await SendMessage(_chatSession, resultsForAi, _chatSettings, _lastMessageId);
+                            response = await SendMessage(
+                                _chatSession,
+                                resultsForAi.response,
+                                _chatSettings,
+                                _lastMessageId);
                             break;
                         }
                         catch (RateLimitError)

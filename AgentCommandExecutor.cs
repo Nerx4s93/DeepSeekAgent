@@ -1,4 +1,5 @@
 ﻿using DeepSeekAgent.Commands;
+using DeepSeekAgent.Commands.CommandResults;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,9 +16,10 @@ public class AgentCommandExecutor
         _commandRegistry = commandRegistry;
     }
 
-    public async Task<string> ExecuteCommandsAsync(List<AgentCommand> commands)
+    public async Task<(string response, bool end)> ExecuteCommandsAsync(List<AgentCommand> commands)
     {
         var stringBuilder = new StringBuilder();
+        var end = false;
 
         foreach (var command in commands)
         {
@@ -34,7 +36,15 @@ public class AgentCommandExecutor
             try
             {
                 var result = await tool.ExecuteAsync(command.Payload);
-                stringBuilder.AppendLine(result);
+
+                if (result is ContinueResult continueResult)
+                {
+                    stringBuilder.AppendLine(continueResult.Message);
+                }
+                else if (result is FinallyResult finallyResult)
+                {
+                    end = true;
+                }
             }
             catch (Exception ex)
             {
@@ -44,6 +54,6 @@ public class AgentCommandExecutor
             }
         }
 
-        return stringBuilder.ToString();
+        return (stringBuilder.ToString(), end);
     }
 }

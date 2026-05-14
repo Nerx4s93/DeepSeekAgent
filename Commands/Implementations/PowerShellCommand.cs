@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ public class PowerShellCommand : LocalCommand
     public override string Name => "POWERSHELL";
     public override string ShortDescription => "выполнение Windows-команд через PowerShell";
 
-    public override async Task<string> ExecuteAsync(string payload)
+    public override async Task<CommandResult> ExecuteAsync(string payload)
     {
         var stringBuilder = new StringBuilder();
         var tcs = new TaskCompletionSource<string>();
@@ -47,11 +48,14 @@ public class PowerShellCommand : LocalCommand
 
             var executeResult = await tcs.Task;
 
-            return $"""
+            var resultText = $"""
             RESPONSE POWERSHELL
             {executeResult.Trim()}
             END RESPONSE
             """;
+
+            var result = new ContinueResult(resultText);
+            return (CommandResult)result;
         }
         finally
         {

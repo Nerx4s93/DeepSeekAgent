@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ public class WSLCommand : LocalCommand
     public override string Name => "WSL";
     public override string ShortDescription => "выполнение Linux-команд через WSL";
 
-    public override async Task<string> ExecuteAsync(string payload)
+    public override async Task<CommandResult> ExecuteAsync(string payload)
     {
         var stringBuilder = new StringBuilder();
         var tcs = new TaskCompletionSource<string>();
@@ -47,11 +48,14 @@ public class WSLCommand : LocalCommand
 
             var executeResult = await tcs.Task;
 
-            return $"""
+            var resultText = $"""
             RESPONSE WSL
             {executeResult.Trim()}
             END RESPONSE
             """;
+
+            var result = new ContinueResult(resultText);
+            return (CommandResult)result;
         }
         finally
         {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands.Implementations.System;
@@ -11,30 +12,33 @@ public class ListCommand : LocalCommand
     public override string Name => "LIST";
     public override string ShortDescription => "список доступных команд и утилит";
 
-    public override Task<string> ExecuteAsync(string payload)
+    public override Task<CommandResult> ExecuteAsync(string payload)
     {
         if (Context.CommandRegistry == null)
         {
-            return Task.FromResult("Context.CommandRegistry == null. Команда не работает.");
+            return Task.FromResult(
+                (CommandResult)
+                new ContinueResult("Context.CommandRegistry == null. Команда не работает."));
         }
 
         var commands = Context.CommandRegistry.GetCommands();
         var groups = commands.GroupBy(c => c.Group);
 
-        var response = "";
+        var resultText = "";
 
         foreach (var group in groups)
         {
-            response += $"{group.Key}:\n";
+            resultText += $"{group.Key}:\n";
 
             foreach (var cmd in group)
             {
-                response += $" - {cmd.Name} : {cmd.ShortDescription}\n";
+                resultText += $" - {cmd.Name} : {cmd.ShortDescription}\n";
             }
 
-            response += "\n";
+            resultText += "\n";
         }
 
-        return Task.FromResult(response);
+        var result = new ContinueResult(resultText);
+        return Task.FromResult((CommandResult)result);
     }
 }

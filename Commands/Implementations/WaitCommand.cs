@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands.Implementations;
 
@@ -10,14 +11,17 @@ public class WaitCommand : LocalCommand
     public override string Name => "WAIT";
     public override string ShortDescription => "задержка выполнения";
 
-    public override async Task<string> ExecuteAsync(string payload)
+    public override async Task<CommandResult> ExecuteAsync(string payload)
     {
         var time = int.Parse(payload);
         await Task.Delay(time);
 
-        return """
+        var resultText = """
            RESPONSE WAIT
            END RESPONSE
            """;
+
+        var result = new ContinueResult(resultText);
+        return (CommandResult)result;
     }
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands.Implementations.System;
 
-internal class MessageCommand : LocalCommand
+public class MessageCommand : LocalCommand
 {
     public MessageCommand(LocalCommandContext context) : base(context) { }
 
@@ -13,8 +14,8 @@ internal class MessageCommand : LocalCommand
     public override string Name => "MESSAGE";
     public override string ShortDescription => "Отправить сообщение человеку";
 
-    public override Task<string> ExecuteAsync(string payload)
+    public override Task<CommandResult> ExecuteAsync(string payload)
     {
-        return (Task<string>)Task.CompletedTask;
+        return Task.FromResult((CommandResult)new ContinueResult(""));
     }
 }

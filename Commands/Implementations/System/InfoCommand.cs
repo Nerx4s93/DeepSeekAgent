@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using DeepSeekAgent.Commands.CommandResults;
+using System.Threading.Tasks;
 
 namespace DeepSeekAgent.Commands.Implementations.System;
 
-internal class InfoCommand : LocalCommand
+public class InfoCommand : LocalCommand
 {
     public InfoCommand(LocalCommandContext context) : base(context) { }
 
@@ -10,11 +11,13 @@ internal class InfoCommand : LocalCommand
     public override string Name => "INFO";
     public override string ShortDescription => "подробная информация о команде или утилите";
 
-    public override Task<string> ExecuteAsync(string payload)
+    public override Task<CommandResult> ExecuteAsync(string payload)
     {
         var path = $"Commands.Info.{payload}.md";
         var commandInfo = ResourcesDataLoader.GetDataText(path);
 
-        return Task.FromResult(commandInfo ?? $"Команда {payload} не существует или у неё отсутствует описание.");
+        var resultText = commandInfo ?? $"Команда {payload} не существует или у неё отсутствует описание.";
+        var result = new ContinueResult(resultText);
+        return Task.FromResult((CommandResult)result);
     }
 }
