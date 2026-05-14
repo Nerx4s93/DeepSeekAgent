@@ -94,7 +94,7 @@ public partial class AgentChat : UserControl
                     richTextBoxLogs.LogLine();
                 }
 
-                richTextBoxLogs.LogLine("[TASK]:", TASK_COLOR);
+                richTextBoxLogs.LogLine("[USER]:", TASK_COLOR);
                 richTextBoxLogs.LogLine(task.TrimEnd());
                 richTextBoxLogs.LogLine();
 
