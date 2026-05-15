@@ -31,10 +31,7 @@ partial class FormMain
     private void InitializeComponent()
     {
         menuStrip = new System.Windows.Forms.MenuStrip();
-        файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        buttonClearHistory = new System.Windows.Forms.ToolStripMenuItem();
         настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        buttonAddAgent = new System.Windows.Forms.ToolStripMenuItem();
         чатToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonDeepSeekToggleThinking = new System.Windows.Forms.ToolStripMenuItem();
         buttonDeepSeekToggleSearch = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +39,7 @@ partial class FormMain
         buttonModelDefault = new System.Windows.Forms.ToolStripMenuItem();
         buttonModelExpert = new System.Windows.Forms.ToolStripMenuItem();
         buttonModelVision = new System.Windows.Forms.ToolStripMenuItem();
+        buttonAddAgent = new System.Windows.Forms.ToolStripMenuItem();
         инструментыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowWSL = new System.Windows.Forms.ToolStripMenuItem();
         buttonShowPowerShell = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,30 +52,13 @@ partial class FormMain
         menuStrip.BackColor = Color.FromArgb(30, 30, 30);
         menuStrip.Font = new Font("Cascadia Mono", 12F);
         menuStrip.ImageScalingSize = new Size(24, 24);
-        menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { файлToolStripMenuItem, настройкиToolStripMenuItem, инструментыToolStripMenuItem });
+        menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { настройкиToolStripMenuItem, инструментыToolStripMenuItem });
         menuStrip.Location = new Point(0, 0);
         menuStrip.Name = "menuStrip";
         menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
         menuStrip.Size = new Size(1221, 40);
         menuStrip.TabIndex = 8;
         menuStrip.Text = "menuStrip1";
-        // 
-        // файлToolStripMenuItem
-        // 
-        файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { buttonClearHistory });
-        файлToolStripMenuItem.ForeColor = Color.Gainsboro;
-        файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-        файлToolStripMenuItem.Size = new Size(86, 36);
-        файлToolStripMenuItem.Text = "Файл";
-        // 
-        // buttonClearHistory
-        // 
-        buttonClearHistory.BackColor = Color.FromArgb(30, 30, 30);
-        buttonClearHistory.ForeColor = Color.Gainsboro;
-        buttonClearHistory.Name = "buttonClearHistory";
-        buttonClearHistory.Size = new Size(342, 40);
-        buttonClearHistory.Text = "Очистить историю";
-        buttonClearHistory.Click += buttonClearHistory_Click;
         // 
         // настройкиToolStripMenuItem
         // 
@@ -86,15 +67,6 @@ partial class FormMain
         настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
         настройкиToolStripMenuItem.Size = new Size(156, 36);
         настройкиToolStripMenuItem.Text = "Настройки";
-        // 
-        // buttonAddAgent
-        // 
-        buttonAddAgent.BackColor = Color.FromArgb(30, 30, 30);
-        buttonAddAgent.ForeColor = Color.Gainsboro;
-        buttonAddAgent.Name = "buttonAddAgent";
-        buttonAddAgent.Size = new Size(328, 40);
-        buttonAddAgent.Text = "Добавить агента";
-        buttonAddAgent.Click += buttonAddAgent_Click;
         // 
         // чатToolStripMenuItem
         // 
@@ -137,7 +109,7 @@ partial class FormMain
         buttonModelDefault.BackColor = Color.FromArgb(30, 30, 30);
         buttonModelDefault.ForeColor = Color.Gainsboro;
         buttonModelDefault.Name = "buttonModelDefault";
-        buttonModelDefault.Size = new Size(270, 40);
+        buttonModelDefault.Size = new Size(216, 40);
         buttonModelDefault.Text = "Default";
         buttonModelDefault.Click += buttonModelDefault_Click;
         // 
@@ -146,7 +118,7 @@ partial class FormMain
         buttonModelExpert.BackColor = Color.FromArgb(30, 30, 30);
         buttonModelExpert.ForeColor = Color.Gainsboro;
         buttonModelExpert.Name = "buttonModelExpert";
-        buttonModelExpert.Size = new Size(270, 40);
+        buttonModelExpert.Size = new Size(216, 40);
         buttonModelExpert.Text = "Expert";
         buttonModelExpert.Click += buttonModelExpert_Click;
         // 
@@ -155,9 +127,18 @@ partial class FormMain
         buttonModelVision.BackColor = Color.FromArgb(30, 30, 30);
         buttonModelVision.ForeColor = Color.Gainsboro;
         buttonModelVision.Name = "buttonModelVision";
-        buttonModelVision.Size = new Size(270, 40);
+        buttonModelVision.Size = new Size(216, 40);
         buttonModelVision.Text = "Vision";
         buttonModelVision.Click += buttonModelVision_Click;
+        // 
+        // buttonAddAgent
+        // 
+        buttonAddAgent.BackColor = Color.FromArgb(30, 30, 30);
+        buttonAddAgent.ForeColor = Color.Gainsboro;
+        buttonAddAgent.Name = "buttonAddAgent";
+        buttonAddAgent.Size = new Size(328, 40);
+        buttonAddAgent.Text = "Добавить агента";
+        buttonAddAgent.Click += buttonAddAgent_Click;
         // 
         // инструментыToolStripMenuItem
         // 
@@ -221,8 +202,6 @@ partial class FormMain
 
     #endregion
     private System.Windows.Forms.MenuStrip menuStrip;
-    private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem buttonClearHistory;
     private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem buttonShowWSL;

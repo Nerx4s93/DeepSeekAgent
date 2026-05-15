@@ -49,15 +49,6 @@ public partial class FormMain : Form
         }
     }
 
-    #region Файл
-
-    private async void buttonClearHistory_Click(object sender, EventArgs e)
-    {
-        await agentManager.ClearHistorySelectedTab();
-    }
-
-    #endregion
-
     #region Настройки
 
     private async void buttonAddAgent_Click(object sender, EventArgs e)

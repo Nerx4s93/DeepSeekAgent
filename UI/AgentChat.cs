@@ -25,7 +25,7 @@ public partial class AgentChat : UserControl
     private readonly DeepSeekClient _deepSeekClient;
     private readonly ChatSettings _chatSettings;
 
-    private ChatSession _chatSession = null!;
+    private ChatSession? _chatSession = null;
     private long? _lastMessageId = null;
 
     public AgentChat(
@@ -45,11 +45,6 @@ public partial class AgentChat : UserControl
         _chatSettings = chatSettings;
 
         Dock = DockStyle.Fill;
-
-        Task.Run(async () =>
-        {
-            await CreateChatSession();
-        });
     }
 
     public LocalCommandContext LocalCommandContext => _localCommandContext;
@@ -60,19 +55,34 @@ public partial class AgentChat : UserControl
         await CreateChatSession();
     }
 
-    private async Task CreateChatSession()
+    private async void buttonDeepSeekSession_Click(object sender, EventArgs e)
     {
-        try
+        if (_chatSession == null)
         {
-            _chatSession = await _deepSeekClient.CreateChatSessionAsync();
+            buttonDeepSeekSession.Enabled = false;
+            await CreateChatSession();
+
+            buttonDeepSeekSession.Enabled = true;
+            buttonDeepSeekSession.Text = "Очистить историю";
+            buttonDeepSeekStopGeneration.Enabled = true;
+            richTextBoxPromt.ReadOnly = false;
+        }
+        else
+        {
+            _chatSession = null;
             _lastMessageId = null;
 
-            var basePromt = ResourcesDataLoader.GetDataText("BOOTSTRAP.md");
-            var promt = basePromt + "\n\n" + "Процесс инициализации";
-
-            await StartHandle(promt);
+            buttonDeepSeekSession.Enabled = true;
+            buttonDeepSeekSession.Text = "Инициализировать";
+            buttonDeepSeekStopGeneration.Enabled = false;
+            richTextBoxPromt.ReadOnly = true;
+            richTextBoxLogs.Clear();
         }
-        catch { }
+    }
+
+    private void buttonDeepSeekStopGeneration_Click(object sender, EventArgs e)
+    {
+
     }
 
     private async void richTextBoxPromt_KeyDown(object sender, KeyEventArgs e)
@@ -105,15 +115,30 @@ public partial class AgentChat : UserControl
         }
     }
 
+    private async Task CreateChatSession()
+    {
+        try
+        {
+            _chatSession = await _deepSeekClient.CreateChatSessionAsync();
+            _lastMessageId = null;
+
+            var basePromt = ResourcesDataLoader.GetDataText("BOOTSTRAP.md");
+            var promt = basePromt + "\n\n" + "Процесс инициализации";
+
+            await StartHandle(promt);
+        }
+        catch { }
+    }
+
     private async Task StartHandle(string promt)
     {
         try
         {
-            var response = await SendWithRetryAsync(_chatSession, promt, _chatSettings, _lastMessageId);
+            var response = await SendWithRetryAsync(_chatSession!, promt, _chatSettings, _lastMessageId);
 
             while (true)
             {
-                _lastMessageId = response.messageId;
+                _lastMessageId = response.messageId; // TODO: переписать, чтобы присваивался в конце
                 var commands = _agentCommandParser.Parse(response.text);
 
                 var resultsForAi = await _agentCommandExecutor.ExecuteCommandsAsync(commands);
@@ -139,7 +164,7 @@ public partial class AgentChat : UserControl
                 }
 
                 response = await SendWithRetryAsync(
-                    _chatSession,
+                    _chatSession!,
                     resultsForAi.response,
                     _chatSettings,
                     _lastMessageId);
