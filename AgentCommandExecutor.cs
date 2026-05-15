@@ -27,7 +27,7 @@ public class AgentCommandExecutor
 
             if (tool == null)
             {
-                stringBuilder.AppendLine($"RESPONSE {command.ToolName}");
+                stringBuilder.AppendLine($"RESPONSE SYSTEM");
                 stringBuilder.AppendLine($"Error: Инструмент '{command.ToolName}' не найден в реестре.");
                 stringBuilder.AppendLine($"END RESPONSE");
                 continue;

@@ -80,17 +80,6 @@ public class AgentManager : SideTabControl
         return null;
     }
 
-
-    public async Task ClearHistorySelectedTab()
-    {
-        if (SelectedTab != null &&
-            SelectedTab.Tag != null &&
-            SelectedTab.Tag is AgentChat agentChat)
-        {
-            await agentChat.ClearHistory();
-        }
-    }
-
     public ChatSettings? GetChatSettigs()
     {
         if (SelectedTab != null &&

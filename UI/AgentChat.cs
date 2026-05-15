@@ -27,6 +27,7 @@ public partial class AgentChat : UserControl
 
     private ChatSession? _chatSession = null;
     private long? _lastMessageId = null;
+    private bool _userStop = false;
 
     public AgentChat(
         LocalCommandContext localCommandContext,
@@ -50,11 +51,6 @@ public partial class AgentChat : UserControl
     public LocalCommandContext LocalCommandContext => _localCommandContext;
     public ChatSettings ChatSettings => _chatSettings;
 
-    public async Task ClearHistory()
-    {
-        await CreateChatSession();
-    }
-
     private async void buttonDeepSeekSession_Click(object sender, EventArgs e)
     {
         if (_chatSession == null)
@@ -62,6 +58,7 @@ public partial class AgentChat : UserControl
             buttonDeepSeekSession.Enabled = false;
             await CreateChatSession();
 
+            _userStop = false;
             buttonDeepSeekSession.Enabled = true;
             buttonDeepSeekSession.Text = "Очистить историю";
             buttonDeepSeekStopGeneration.Enabled = true;
@@ -70,6 +67,7 @@ public partial class AgentChat : UserControl
         {
             _chatSession = null;
             _lastMessageId = null;
+            _userStop = true;
 
             buttonDeepSeekSession.Enabled = true;
             buttonDeepSeekSession.Text = "Инициализировать";
@@ -85,7 +83,9 @@ public partial class AgentChat : UserControl
             return;
         }
 
+        _userStop = true;
         await _deepSeekClient.StopGenerationAsync(_chatSession, _lastMessageId.Value);
+        richTextBoxLogs.LogLine("\nSTOP GENERATION", Color.Red);
     }
 
     private async void richTextBoxPromt_KeyDown(object sender, KeyEventArgs e)
@@ -99,11 +99,9 @@ public partial class AgentChat : UserControl
 
             var task = richTextBoxPromt.Text;
             richTextBoxPromt.Clear();
-
-            var promt = task;
-
             richTextBoxPromt.ReadOnly = true;
 
+            _userStop = false;
             await Task.Run(async () =>
             {
                 if (_lastMessageId != null)
@@ -116,7 +114,7 @@ public partial class AgentChat : UserControl
                 richTextBoxLogs.LogLine(task.TrimEnd());
                 richTextBoxLogs.LogLine();
 
-                await StartHandle(promt);
+                await StartHandle(task);
             });
 
             richTextBoxPromt.ReadOnly = false;
@@ -142,12 +140,16 @@ public partial class AgentChat : UserControl
     {
         try
         {
-            var response = await SendWithRetryAsync(_chatSession!, promt, _chatSettings, _lastMessageId);
+            var response = await SendWithRetryAsync(promt);
 
             while (true)
             {
-                _lastMessageId = response.messageId; // TODO: переписать, чтобы присваивался в конце
-                var commands = _agentCommandParser.Parse(response.text);
+                if (_userStop)
+                {
+                    break;
+                }
+
+                var commands = _agentCommandParser.Parse(response);
 
                 var resultsForAi = await _agentCommandExecutor.ExecuteCommandsAsync(commands);
 
@@ -171,11 +173,7 @@ public partial class AgentChat : UserControl
                     richTextBoxLogs.LogLine("[Error]: ИИ выдал ответ без команд и не завершил задачу.", Color.Red);
                 }
 
-                response = await SendWithRetryAsync(
-                    _chatSession!,
-                    resultsForAi.response,
-                    _chatSettings,
-                    _lastMessageId);
+                response = await SendWithRetryAsync(resultsForAi.response);
             }
 
         }
@@ -185,23 +183,19 @@ public partial class AgentChat : UserControl
         }
     }
 
-    private async Task<(long? messageId, string text)> SendWithRetryAsync(
-        ChatSession chatSession,
-        string prompt,
-        ChatSettings chatSettings,
-        long? parentMessage = null)
+    private async Task<string> SendWithRetryAsync(string prompt)
     {
-        (long? messageId, string text) response = (null, string.Empty);
+        var response = string.Empty;
 
         while (true)
         {
             try
             {
                 response = await SendMessage(
-                    chatSession,
+                    _chatSession!,
                     prompt,
-                    chatSettings,
-                    parentMessage);
+                    _chatSettings,
+                    _lastMessageId);
                 break;
             }
             catch (RateLimitError)
@@ -223,7 +217,7 @@ public partial class AgentChat : UserControl
         return response;
     }
 
-    private async Task<(long? messageId, string text)> SendMessage(
+    private async Task<string> SendMessage(
         ChatSession chatSession,
         string prompt,
         ChatSettings chatSettings,
@@ -231,7 +225,6 @@ public partial class AgentChat : UserControl
     {
         richTextBoxLogs.LogLine("[DEEPSEEK]:", DEEPSEEK_COLOR);
 
-        long? messageId = null;
         var text = string.Empty;
 
         await foreach (var token in _deepSeekClient.SendMessageStream(
@@ -240,11 +233,11 @@ public partial class AgentChat : UserControl
             chatSettings,
             parentMessage))
         {
-            messageId = token.MessageId;
+            _lastMessageId = token.MessageId;
             text += token.Text;
             richTextBoxLogs.Log(token.Text);
         }
 
-        return (messageId, text);
+        return text;
     }
 }
