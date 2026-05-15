@@ -65,7 +65,6 @@ public partial class AgentChat : UserControl
             buttonDeepSeekSession.Enabled = true;
             buttonDeepSeekSession.Text = "Очистить историю";
             buttonDeepSeekStopGeneration.Enabled = true;
-            richTextBoxPromt.ReadOnly = false;
         }
         else
         {
@@ -75,7 +74,6 @@ public partial class AgentChat : UserControl
             buttonDeepSeekSession.Enabled = true;
             buttonDeepSeekSession.Text = "Инициализировать";
             buttonDeepSeekStopGeneration.Enabled = false;
-            richTextBoxPromt.ReadOnly = true;
             richTextBoxLogs.Clear();
         }
     }
@@ -94,6 +92,11 @@ public partial class AgentChat : UserControl
     {
         if (e.KeyCode == Keys.Enter && e.Shift == false)
         {
+            if (_chatSession == null)
+            {
+                return;
+            }
+
             var task = richTextBoxPromt.Text;
             richTextBoxPromt.Clear();
 

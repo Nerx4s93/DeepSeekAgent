@@ -93,7 +93,6 @@ partial class AgentChat
         richTextBoxPromt.ForeColor = System.Drawing.Color.Gainsboro;
         richTextBoxPromt.Location = new System.Drawing.Point(0, 0);
         richTextBoxPromt.Name = "richTextBoxPromt";
-        richTextBoxPromt.ReadOnly = true;
         richTextBoxPromt.Size = new System.Drawing.Size(797, 166);
         richTextBoxPromt.TabIndex = 1;
         richTextBoxPromt.Text = "";
