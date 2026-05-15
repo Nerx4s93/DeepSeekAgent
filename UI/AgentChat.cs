@@ -80,9 +80,14 @@ public partial class AgentChat : UserControl
         }
     }
 
-    private void buttonDeepSeekStopGeneration_Click(object sender, EventArgs e)
+    private async void buttonDeepSeekStopGeneration_Click(object sender, EventArgs e)
     {
+        if (_chatSession == null || _lastMessageId == null)
+        {
+            return;
+        }
 
+        await _deepSeekClient.StopGenerationAsync(_chatSession, _lastMessageId.Value);
     }
 
     private async void richTextBoxPromt_KeyDown(object sender, KeyEventArgs e)

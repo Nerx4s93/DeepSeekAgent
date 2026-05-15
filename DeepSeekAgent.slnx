@@ -1,5 +1,3 @@
 <Solution>
-  <Project Path="DeepSeekAgent.csproj">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
+  <Project Path="DeepSeekAgent.csproj" />
 </Solution>
